@@ -1,13 +1,9 @@
 import { Router } from "express";
-import { CreatePartnerController } from "../controllers/createPartner.controller";
-import { CreatePartner } from "../../../application/useCases/partners/createPartner.usecase";
-import { InMemoryPartnerRepository } from "../../../infrastructure/repositories/partner.repository";
+import { makeCreatePartnerController } from "../../../infrastructure/factories/partners/make.create.partner.controller";
 
 const router = Router();
 
-const repository = new InMemoryPartnerRepository();
-const useCase = new CreatePartner(repository);
-const controller = new CreatePartnerController(useCase);
+const controller = makeCreatePartnerController();
 
 router.post("/partners", (req, res) => controller.handle(req, res));
 

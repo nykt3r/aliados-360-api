@@ -1,3 +1,4 @@
+import { InvalidPartnerNameError } from "../errors/invalid.partner.name.error";
 import { UniqueId } from "../valueObjects/uniqueId.vo";
 
 export class Partner {
@@ -7,7 +8,7 @@ export class Partner {
 
   constructor(id: UniqueId, name: string, active: boolean = true) {
     if (!name || name.trim().length === 0) {
-      throw new Error("Partner name is required");
+      throw new InvalidPartnerNameError();
     }
 
     this.id = id;

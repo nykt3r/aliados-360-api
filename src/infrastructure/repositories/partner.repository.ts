@@ -1,5 +1,6 @@
 import { Partner } from "../../domain/entities/partner.entity";
 import { IPartnerRepository } from "../../domain/repositories/partner.repository";
+import { PartnerNotFoundError } from "../../domain/errors/partner.not.found.error";
 
 export class InMemoryPartnerRepository implements IPartnerRepository {
   private partners: Partner[] = [];
@@ -14,14 +15,16 @@ export class InMemoryPartnerRepository implements IPartnerRepository {
   }
 
   async findAll(): Promise<Partner[]> {
-    return this.partners;
+    return [...this.partners];
   }
 
   async update(partner: Partner): Promise<void> {
     const index = this.partners.findIndex((p) => p.getId() === partner.getId());
 
-    if (index !== -1) {
-      this.partners[index] = partner;
+    if (index === -1) {
+      throw new PartnerNotFoundError();
     }
+
+    this.partners[index] = partner;
   }
 }

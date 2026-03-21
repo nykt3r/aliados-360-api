@@ -2,5 +2,5 @@ POST http://localhost:3000/api/partners HTTP/1.1
 content-type: application/json 
 
 {
-  "name": "Microsoft"
+  "name": "ubuntu"
 }

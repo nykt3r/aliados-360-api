@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import partnerRoutes from "./interfaces/http/routes/partner.routes";
+import partnerRoutes from "./infrastructure/api/routes/partner.routes";
 
 const app = express();
 app.disable("x-powered-by");

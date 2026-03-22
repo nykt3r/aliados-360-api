@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { makeCreatePartnerController } from "../../factories/partners/make.create.partner.controller";
+import { makeCreatePartnerController } from "../../../factories/partners/make.create.partner.controller";
 
 const router = Router();
 

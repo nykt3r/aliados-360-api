@@ -1,4 +1,4 @@
-import { CreatePartnerController } from "../../api/controllers/createPartner.controller";
+import { CreatePartnerController } from "../../api/controllers/v1/partner.controller";
 import { CreatePartner } from "../../../application/useCases/partners/createPartner.usecase";
 import { InMemoryPartnerRepository } from "../../repositories/partner.repository";
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreatePartner } from "../../../application/useCases/partners/createPartner.usecase";
+import { CreatePartner } from "../../../../application/useCases/partners/createPartner.usecase";
 
 export class CreatePartnerController {
   constructor(private createPartner: CreatePartner) {}

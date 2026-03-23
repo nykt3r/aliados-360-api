@@ -1,5 +1,5 @@
-import { Brand } from "../../domain/entities/brand.entity";
-import { IBrandRepository } from "../../domain/repositories/brand.repository";
+import { Brand } from "../../../../domain/entities/brand.entity";
+import { IBrandRepository } from "../../../../domain/repositories/brand.repository";
 
 export class InMemoryBrandRepository implements IBrandRepository {
   private brands: Brand[] = [];

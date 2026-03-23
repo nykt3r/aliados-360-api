@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1a2b3c4d-0001",
+    "name": "Tech Solutions S.A.S",
+    "active": true
+  },
+  {
+    "id": "1a2b3c4d-0002",
+    "name": "Global Services Ltda",
+    "active": true
+  },
+  {
+    "id": "1a2b3c4d-0003",
+    "name": "Innovatech Group",
+    "active": false
+  },
+  {
+    "id": "1a2b3c4d-0004",
+    "name": "Alpha Consulting",
+    "active": true
+  },
+  {
+    "id": "1a2b3c4d-0005",
+    "name": "Beta Logistics",
+    "active": false
+  },
+  {
+    "id": "1a2b3c4d-0006",
+    "name": "Gamma Industries",
+    "active": true
+  },
+  {
+    "id": "1a2b3c4d-0007",
+    "name": "Delta Corp",
+    "active": true
+  },
+  {
+    "id": "1a2b3c4d-0008",
+    "name": "Epsilon Ventures",
+    "active": false
+  },
+  {
+    "id": "1a2b3c4d-0009",
+    "name": "Zeta Enterprises",
+    "active": true
+  },
+  {
+    "id": "1a2b3c4d-0010",
+    "name": "Omega Partners",
+    "active": true
+  }
+]

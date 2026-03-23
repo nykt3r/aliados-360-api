@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { CreatePartner } from "../../../../application/useCases/partners/createPartner.usecase";
 import { GetPartnerById } from "../../../../application/useCases/partners/getPartnerById.usecase";
+import { GetAllPartners } from "../../../../application/useCases/partners/getAllPartner.usecase";
+import { UpdatePartner } from "../../../../application/useCases/partners/updatePartner.usecase";
 
 export class CreatePartnerController {
   constructor(private createPartner: CreatePartner) {}
@@ -38,3 +40,27 @@ export class GetPartnerByIdController {
   }
 }
 
+export class GetAllPartnersController {
+  constructor(private getAllPartners: GetAllPartners) {}
+  async handle(req: Request, res: Response) {
+    const partners = await this.getAllPartners.execute();
+    res.status(200).json(partners);
+  }
+}
+
+export class UpdatePartnerController {
+  constructor(private updatePartner: UpdatePartner) {}
+  async handle(req: Request, res: Response) {
+    const { id } = req.params as { id: string };
+    const { name, active } = req.body;
+
+    await this.updatePartner.execute({
+      id,
+      name,
+      active,
+    });
+
+    res.status(204).send();
+  }
+
+}

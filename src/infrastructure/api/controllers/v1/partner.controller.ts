@@ -42,7 +42,7 @@ export class GetPartnerByIdController {
 
 export class GetAllPartnersController {
   constructor(private getAllPartners: GetAllPartners) {}
-  async handle(req: Request, res: Response) {
+  async handle(_req: Request, res: Response) {
     const partners = await this.getAllPartners.execute();
     res.status(200).json(partners);
   }

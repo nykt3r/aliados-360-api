@@ -2,13 +2,13 @@ import { Router } from "express";
 import { CreatePartnerController, GetPartnerByIdController, GetAllPartnersController, UpdatePartnerController} from "../../../api/controllers/v1/partner.controller";
 import { CreatePartner } from "../../../../../src/application/useCases/partners/createPartner.usecase";
 import { GetPartnerById } from "../../../../application/useCases/partners/getPartnerById.usecase";
-import { InMemoryPartnerRepository } from "../../../repositories/partner.repository";
+import { JsonPartnerRepository } from "../../../persistence/repositories/jsonRepository/partner.repository"
 import { GetAllPartners } from "../../../../application/useCases/partners/getAllPartner.usecase";
 import { UpdatePartner } from "../../../../application/useCases/partners/updatePartner.usecase";
 
 const router = Router();
 
-const repository = new InMemoryPartnerRepository();
+const repository = new JsonPartnerRepository();
 
 const createPartnerUseCase = new CreatePartner(repository);
 const createPartnerController = new CreatePartnerController(createPartnerUseCase);

@@ -6,7 +6,16 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3000/api/getbyid/partners/ebf5c0ca-7433-486b-96a5-d4ae24acb37e HTTP/1.1
+GET http://localhost:3000/api/getbyid/partners/1a2b3c4d-0010 HTTP/1.1
 
 ###
 GET http://localhost:3000/api/get/partners HTTP/1.1
+
+###
+PUT http://localhost:3000/api/update/partners/1a2b3c4d-0001
+Content-Type: application/json
+
+{
+  "name": "ubuntu",
+  "active": false
+}

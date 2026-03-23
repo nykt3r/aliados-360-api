@@ -6,7 +6,7 @@ import { Partner } from "../../../domain/entities/partner.entity";
 export class UpdatePartner {
   constructor(private partnerRepository: IPartnerRepository) {}
 
-  async execute(request: UpdatePartnerDTO): Promise<void> {
+  async execute(request: UpdatePartnerDTO): Promise<Partner> {
     const partner = await this.partnerRepository.findById(request.id);
 
     if (!partner) {
@@ -17,7 +17,7 @@ export class UpdatePartner {
       if (!request.name.trim()) {
         throw new Error("Name cannot be empty");
       }
-      (partner as any).name = request.name; 
+      (partner as any).name = request.name;
     }
 
     if (request.active !== undefined) {
@@ -25,5 +25,6 @@ export class UpdatePartner {
     }
 
     await this.partnerRepository.update(partner);
+    return partner;
   }
 }

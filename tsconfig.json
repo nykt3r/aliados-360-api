@@ -1,12 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "CommonJS",
+    "target": "esnext",
+    "module": "nodenext",
     "rootDir": "./src",
     "outDir": "./dist",
     "strict": true,
-    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,    
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true    ,
+    "forceConsistentCasingInFileNames": true
   }
 }

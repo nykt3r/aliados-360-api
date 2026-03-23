@@ -2,5 +2,11 @@ POST http://localhost:3000/api/partners HTTP/1.1
 content-type: application/json 
 
 {
-  "name": "ubuntu"
+  "name": "Windows"
 }
+
+###
+GET http://localhost:3000/api/getbyid/partners/ebf5c0ca-7433-486b-96a5-d4ae24acb37e HTTP/1.1
+
+###
+GET http://localhost:3000/api/get/partners HTTP/1.1

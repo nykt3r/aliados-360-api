@@ -12,7 +12,7 @@ export class GetPartnerById {
     return this.ensurePartnerExists(partner, request.id);
   }
 
-  private ensurePartnerExists(partner: Partner | null, id: string): Partner {
+  private ensurePartnerExists(partner: Partner | null, _id: string): Partner {
     if (!partner) {
       throw new PartnerNotFoundError();
     }

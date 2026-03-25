@@ -6,7 +6,7 @@ import { InvalidPartnerNameError } from "../../../src/domain/errors/invalid.part
 describe("Partner entity", () => {
   it("should create a partner with valid data", () => {
     const id = new UniqueId();
-    const name = "Ubuntu"
+    const name = "Ubuntu";
     const partner = new Partner(id, name);
 
     expect(partner).toBeDefined();

@@ -7,12 +7,13 @@ import { UniqueId } from "../../../domain/valueObjects/uniqueId.vo";
 export class UpdatePartner {
   constructor(private partnerRepository: IPartnerRepository) {}
 
-  async execute(request: UpdatePartnerDTO): Promise<void> {
+  async execute(request: UpdatePartnerDTO): Promise<Partner> {
     const partner = await this.findPartnerOrFail(request.id);
 
     this.validateRequest(request);
     const updatedPartner = this.buildUpdatedPartner(partner, request);
     await this.partnerRepository.update(updatedPartner);
+    return updatedPartner;
   }
 
   private async findPartnerOrFail(id: string): Promise<Partner> {

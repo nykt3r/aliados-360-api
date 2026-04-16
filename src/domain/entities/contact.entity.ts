@@ -1,5 +1,6 @@
 import { UniqueId } from "../valueObjects/uniqueId.vo";
 import { Email } from "../valueObjects/email.vo";
+import { BadRequestError } from "../../shared/errors/app.error";
 
 export class Contact {
   private id: UniqueId;
@@ -16,11 +17,11 @@ export class Contact {
     partnerId: UniqueId,
   ) {
     if (!name || name.trim().length === 0) {
-      throw new Error("Contact name is required");
+      throw new BadRequestError("Contact name is required");
     }
 
     if (!role || role.trim().length === 0) {
-      throw new Error("Contact role is required");
+      throw new BadRequestError("Contact role is required");
     }
 
     this.id = id;

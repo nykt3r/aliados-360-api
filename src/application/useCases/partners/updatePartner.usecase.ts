@@ -3,6 +3,7 @@ import { PartnerNotFoundError } from "../../../domain/errors/partner.not.found.e
 import { UpdatePartnerDTO } from "../../../../src/application/dto/partners/updatePartner.dto";
 import { Partner } from "../../../domain/entities/partner.entity";
 import { UniqueId } from "../../../domain/valueObjects/uniqueId.vo";
+import { BadRequestError } from "../../../shared/errors/app.error";
 
 export class UpdatePartner {
   constructor(private partnerRepository: IPartnerRepository) {}
@@ -28,7 +29,7 @@ export class UpdatePartner {
 
   private validateRequest(request: UpdatePartnerDTO): void {
     if (request.name === undefined && request.active === undefined) {
-      throw new Error("At least one field must be provided to update");
+      throw new BadRequestError("At least one field must be provided to update");
     }
 
     if (request.name !== undefined) {
@@ -42,23 +43,23 @@ export class UpdatePartner {
 
   private validateName(name: string): void {
     if (typeof name !== "string") {
-      throw new Error("Name must be a string");
+      throw new BadRequestError("Name must be a string");
     }
 
     const trimmed = name.trim();
 
     if (!trimmed) {
-      throw new Error("Name cannot be empty");
+      throw new BadRequestError("Name cannot be empty");
     }
 
     if (trimmed.length < 3) {
-      throw new Error("Name must be at least 3 characters");
+      throw new BadRequestError("Name must be at least 3 characters");
     }
   }
 
   private validateActive(active: boolean): void {
     if (typeof active !== "boolean") {
-      throw new Error("Active must be a boolean");
+      throw new BadRequestError("Active must be a boolean");
     }
   }
 

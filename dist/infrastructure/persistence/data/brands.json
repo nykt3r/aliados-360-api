@@ -1,0 +1,12 @@
+[
+    { "id": "b-001", "name": "TechBrand", "partnerId": "1a2b3c4d-0001", "active": true },
+    { "id": "b-002", "name": "GlobalBrand", "partnerId": "1a2b3c4d-0002", "active": true },
+    { "id": "b-003", "name": "InnovateBrand", "partnerId": "1a2b3c4d-0003", "active": false },
+    { "id": "b-004", "name": "AlphaBrand", "partnerId": "1a2b3c4d-0004", "active": true },
+    { "id": "b-005", "name": "BetaBrand", "partnerId": "1a2b3c4d-0005", "active": true },
+    { "id": "b-006", "name": "GammaBrand", "partnerId": "1a2b3c4d-0006", "active": true },
+    { "id": "b-007", "name": "DeltaBrand", "partnerId": "1a2b3c4d-0007", "active": false },
+    { "id": "b-008", "name": "EpsilonBrand", "partnerId": "1a2b3c4d-0008", "active": true },
+    { "id": "b-009", "name": "ZetaBrand", "partnerId": "1a2b3c4d-0009", "active": true },
+    { "id": "b-010", "name": "OmegaBrand", "partnerId": "1a2b3c4d-0010", "active": true }
+]

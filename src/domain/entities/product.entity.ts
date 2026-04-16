@@ -1,4 +1,5 @@
 import { UniqueId } from "../valueObjects/uniqueId.vo";
+import { BadRequestError } from "../../shared/errors/app.error";
 
 export class Product {
   private id: UniqueId;
@@ -13,7 +14,7 @@ export class Product {
     active: boolean = true,
   ) {
     if (!name || name.trim().length === 0) {
-      throw new Error("Product name is required");
+      throw new BadRequestError("Product name is required");
     }
 
     this.id = id;

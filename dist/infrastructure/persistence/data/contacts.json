@@ -1,0 +1,12 @@
+[
+    { "id": "c-001", "name": "Juan Perez", "email": "juan.perez@test.com", "role": "Manager", "partnerId": "1a2b3c4d-0001" },
+    { "id": "c-002", "name": "Maria Gomez", "email": "maria.gomez@test.com", "role": "Sales", "partnerId": "1a2b3c4d-0002" },
+    { "id": "c-003", "name": "Carlos Ruiz", "email": "carlos.ruiz@test.com", "role": "Support", "partnerId": "1a2b3c4d-0003" },
+    { "id": "c-004", "name": "Ana Torres", "email": "ana.torres@test.com", "role": "Marketing", "partnerId": "1a2b3c4d-0004" },
+    { "id": "c-005", "name": "Luis Martinez", "email": "luis.martinez@test.com", "role": "CEO", "partnerId": "1a2b3c4d-0005" },
+    { "id": "c-006", "name": "Sofia Lopez", "email": "sofia.lopez@test.com", "role": "CTO", "partnerId": "1a2b3c4d-0006" },
+    { "id": "c-007", "name": "Diego Castro", "email": "diego.castro@test.com", "role": "Engineer", "partnerId": "1a2b3c4d-0007" },
+    { "id": "c-008", "name": "Laura Diaz", "email": "laura.diaz@test.com", "role": "HR", "partnerId": "1a2b3c4d-0008" },
+    { "id": "c-009", "name": "Pedro Sanchez", "email": "pedro.sanchez@test.com", "role": "Finance", "partnerId": "1a2b3c4d-0009" },
+    { "id": "c-010", "name": "Camila Herrera", "email": "camila.herrera@test.com", "role": "COO", "partnerId": "1a2b3c4d-0010" }
+]

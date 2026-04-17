@@ -1,0 +1,3 @@
+- Review return types on interfaces
+- Rename repositories folder to interfaces
+- Review/Refactor custom errors and exceptions (jac2206 repo)

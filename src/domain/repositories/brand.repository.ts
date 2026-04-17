@@ -5,4 +5,3 @@ export interface IBrandRepository {
   findByPartnerId(partnerId: string): Promise<Brand[]>;
   findById(id: string): Promise<Brand | null>;
 }
-  

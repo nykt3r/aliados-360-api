@@ -1,0 +1,3 @@
+- Review dto's (can be grouping by entities, for example)
+- Review useCases
+- Can implement services folder to orchest useCases

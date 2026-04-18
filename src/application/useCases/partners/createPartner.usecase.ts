@@ -1,5 +1,5 @@
 import { Partner } from "../../../domain/entities/partner.entity";
-import { IPartnerRepository } from "../../../domain/repositories/partner.repository";
+import { IPartnerRepository } from "../../../domain/interfaces/repositories/partner.repository.interface";
 import { UniqueId } from "../../../domain/valueObjects/uniqueId.vo";
 
 interface CreatePartnerRequest {

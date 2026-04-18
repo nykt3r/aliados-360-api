@@ -1,6 +1,6 @@
 import productsData from "../../data/products.json"
 import { Product } from "../../../../domain/entities/product.entity"
-import { IProductRepository } from "../../../../domain/repositories/product.repository"
+import { IProductRepository } from "../../../../domain/interfaces/repositories/product.repository.interface"
 import { ProductMapper, ProductPrimitives } from "../../mappers/product.mapper"
 
 export class JsonProductRepository implements IProductRepository {

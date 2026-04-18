@@ -1,6 +1,6 @@
 import { Partner } from "../../../domain/entities/partner.entity";
-import { PartnerNotFoundError } from "../../../domain/errors/partner.not.found.error";
-import { IPartnerRepository } from "../../../domain/repositories/partner.repository";
+import { PartnerNotFoundError } from "../../../domain/errors/partner/partner.not.found.error";
+import { IPartnerRepository } from "../../../domain/interfaces/repositories/partner.repository.interface";
 import { GetPartnerByIdDTO } from "../../dto/partners/getPartnerById.dto";
 
 export class GetPartnerById {

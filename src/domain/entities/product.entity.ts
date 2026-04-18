@@ -39,7 +39,7 @@ export class Product {
     return this.active;
   }
 
-  deactivate() { // Implicit return: void
+  deactivate(): void {
     this.active = false;
   }
 }

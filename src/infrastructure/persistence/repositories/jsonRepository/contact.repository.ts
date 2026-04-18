@@ -1,6 +1,6 @@
 import contactsData from "../../data/contacts.json"
 import { Contact } from "../../../../domain/entities/contact.entity"
-import { IContactRepository } from "../../../../domain/repositories/contact.repository"
+import { IContactRepository } from "../../../../domain/interfaces/repositories/contact.repository.interface"
 import { ContactMapper, ContactPrimitives } from "../../mappers/contact.mapper"
 
 export class JsonContactRepository implements IContactRepository {

@@ -1,5 +1,5 @@
 import { Contact } from "../../../../domain/entities/contact.entity";
-import { IContactRepository } from "../../../../domain/repositories/contact.repository";
+import { IContactRepository } from "../../../../domain/interfaces/repositories/contact.repository.interface";
 
 export class InMemoryContactRepository implements IContactRepository {
   private contacts: Contact[] = [];

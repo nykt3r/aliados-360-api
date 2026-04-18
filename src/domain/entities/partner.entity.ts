@@ -1,4 +1,4 @@
-import { InvalidPartnerNameError } from "../errors/invalid.partner.name.error"; // Review and refactor errors by layer -- Using diferent error (Entities should use generic)
+import { InvalidPartnerNameError } from "../errors/partner/invalid.partner.name.error"; // Review and refactor errors by layer -- Using diferent error (Entities should use generic)
 import { UniqueId } from "../valueObjects/uniqueId.vo";
 
 export class Partner { // Readonly props
@@ -28,11 +28,11 @@ export class Partner { // Readonly props
     return this.active;
   }
 
-  deactivate() { // Implicit return: void
+  deactivate(): void {
     this.active = false;
   }
 
-  activate() {
+  activate(): void {
     this.active = true;
   }
 }

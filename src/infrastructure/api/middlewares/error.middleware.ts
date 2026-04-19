@@ -4,6 +4,7 @@ import { AppError } from "../../../shared/errors/app.error";
 export function notFoundMiddleware(_req: Request, res: Response): void {
   res.status(404).json({
     message: "Route not found",
+    code: 404
   });
 }
 

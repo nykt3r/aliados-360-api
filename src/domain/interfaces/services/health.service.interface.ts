@@ -1,3 +1,3 @@
 export interface IHealthService {
-  getStatus(): Promise<{ status: string }>;
+  getStatus(): Promise<{ status: string, message: string }>;
 }

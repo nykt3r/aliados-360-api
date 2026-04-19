@@ -1,22 +1,24 @@
 import cors from "cors";
 import express from "express";
-import partnerRouter from "./infrastructure/api/routes/v1/partner.routes";
 import healthRouter from "./infrastructure/api/routes/health.routes";
-import {
-  errorMiddleware,
-  notFoundMiddleware,
-} from "./infrastructure/api/middlewares/error.middleware";
+import partnerRouter from "./infrastructure/api/routes/v1/partner.routes";
+import { notFoundMiddleware } from "./infrastructure/api/middlewares/notFound.middleware";
+import { errorMiddleware } from "./infrastructure/api/middlewares/error.middleware";
 
-const prefix = "/api";
-export const app = express();
+export const createServer = () => {
 
-app.disable("x-powered-by");
+  const prefix = "/api";
+  const app = express();
 
-app.use(cors());
-app.use(express.json());
+  app.disable("x-powered-by");
+  app.use(cors());
+  app.use(express.json());
 
-app.use(`${prefix}/health`, healthRouter);
-app.use(`${prefix}/v1`, partnerRouter);
+  app.use(`${prefix}/health`, healthRouter);
+  app.use(`${prefix}/v1`, partnerRouter);
 
-app.use(notFoundMiddleware);
-app.use(errorMiddleware);
+  app.use(notFoundMiddleware);
+  app.use(errorMiddleware);
+
+  return app;
+} 

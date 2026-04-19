@@ -1,15 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../../shared/errors/app.error";
 
-export function notFoundMiddleware(_req: Request, res: Response): void {
-  res.status(404).json({
-    message: "Route not found",
-    code: 404
-  });
-}
-
 export function errorMiddleware(
-  error: Error & { status?: number; type?: string },
+  error: Error,
   _req: Request,
   res: Response,
   _next: NextFunction,
@@ -21,7 +14,7 @@ export function errorMiddleware(
     return;
   }
 
-  if (error instanceof SyntaxError && error.status === 400 && error.type === "entity.parse.failed") {
+  if (error instanceof SyntaxError) {
     res.status(400).json({
       message: "Malformed JSON body",
     });

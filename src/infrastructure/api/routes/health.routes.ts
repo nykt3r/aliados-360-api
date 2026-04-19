@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { HealthController } from "../../api/controllers/health.controller";
-import { HealthService } from "../services/health.service"
+import { HealthService } from "../../services/health.service"
 
 const router = Router();
 

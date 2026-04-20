@@ -1,13 +1,13 @@
-import { InvalidPartnerNameError } from "../errors/invalid.partner.name.error";
+import { InvalidPartnerNameError } from "../errors/partner/invalid.partner.name.error"; // Review and refactor errors by layer -- Using diferent error (Entities should use generic)
 import { UniqueId } from "../valueObjects/uniqueId.vo";
 
-export class Partner {
+export class Partner { // Readonly props
   private id: UniqueId;
   private name: string;
   private active: boolean;
 
   constructor(id: UniqueId, name: string, active: boolean = true) {
-    if (!name || name.trim().length === 0) {
+    if (!name || name.trim().length === 0) { // Encapsulate validation
       throw new InvalidPartnerNameError();
     }
 
@@ -28,11 +28,11 @@ export class Partner {
     return this.active;
   }
 
-  deactivate() {
+  deactivate(): void {
     this.active = false;
   }
 
-  activate() {
+  activate(): void {
     this.active = true;
   }
 }

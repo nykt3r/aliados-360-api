@@ -1,8 +1,8 @@
 import { UniqueId } from "../valueObjects/uniqueId.vo";
-import { BadRequestError } from "../../shared/errors/app.error";
+import { BadRequestError } from "../../shared/errors/app.error"; // Review and refactor errors by layer
 
 export class Brand {
-  private id: UniqueId;
+  private id: UniqueId; // Readonly props
   private name: string;
   private partnerId: UniqueId;
   private active: boolean;
@@ -13,7 +13,7 @@ export class Brand {
     partnerId: UniqueId,
     active: boolean = true,
   ) {
-    if (!name || name.trim().length === 0) {
+    if (!name || name.trim().length === 0) { // Encapsulate validation
       throw new BadRequestError("Brand name is required");
     }
 
@@ -39,7 +39,7 @@ export class Brand {
     return this.active;
   }
 
-  deactivate() {
+  deactivate(): void {
     this.active = false;
   }
 }

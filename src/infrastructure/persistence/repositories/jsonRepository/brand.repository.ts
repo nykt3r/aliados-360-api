@@ -1,6 +1,6 @@
 import brandsData from "../../data/brands.json"
 import { Brand } from "../../../../domain/entities/brand.entity"
-import { IBrandRepository } from "../../../../domain/repositories/brand.repository"
+import { IBrandRepository } from "../../../../domain/interfaces/repositories/brand.repository.interface"
 import { BrandMapper, BrandPrimitives } from "../../mappers/brand.mapper"
 
 export class JsonBrandRepository implements IBrandRepository {

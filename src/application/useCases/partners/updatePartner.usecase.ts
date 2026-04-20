@@ -1,74 +1,35 @@
-import { IPartnerRepository } from "../../../domain/repositories/partner.repository";
-import { PartnerNotFoundError } from "../../../domain/errors/partner.not.found.error";
-import { UpdatePartnerDTO } from "../../../../src/application/dto/partners/updatePartner.dto";
-import { Partner } from "../../../domain/entities/partner.entity";
+import { IUpdatePartnerUseCase } from "../../../domain/interfaces/useCases/partners/updatePartner.usecase.interface";
+import { IPartnerRepository } from "../../../domain/interfaces/repositories/partner.repository.interface";
+import { UpdatePartnerRequestDTO, UpdatePartnerResponseDTO } from "../../../../src/application/dto/partners/updatePartner.dto";
+import { PartnerNotFoundError } from "../../../domain/errors/partner/partner.not.found.error";
 import { UniqueId } from "../../../domain/valueObjects/uniqueId.vo";
-import { BadRequestError } from "../../../shared/errors/app.error";
+import { Partner } from "../../../domain/entities/partner.entity";
+import { AppError } from "../../../shared/errors/app.error";
 
-export class UpdatePartner {
-  constructor(private partnerRepository: IPartnerRepository) {}
+export class UpdatePartnerUseCase implements IUpdatePartnerUseCase {
+  constructor(
+    private readonly partnerRepository: IPartnerRepository
+  ) {}
 
-  async execute(request: UpdatePartnerDTO): Promise<Partner> {
-    const partner = await this.findPartnerOrFail(request.id);
+  async execute(req: UpdatePartnerRequestDTO): Promise<UpdatePartnerResponseDTO> {
+    const existingPartner = await this.partnerRepository.findById(req.id);
+    if (!existingPartner) throw new PartnerNotFoundError;
 
-    this.validateRequest(request);
-    const updatedPartner = this.buildUpdatedPartner(partner, request);
-    await this.partnerRepository.update(updatedPartner);
-    return updatedPartner;
-  }
-
-  private async findPartnerOrFail(id: string): Promise<Partner> {
-    const partner = await this.partnerRepository.findById(id);
-
-    if (!partner) {
-      throw new PartnerNotFoundError();
-    }
-
-    return partner;
-  }
-
-  private validateRequest(request: UpdatePartnerDTO): void {
-    if (request.name === undefined && request.active === undefined) {
-      throw new BadRequestError("At least one field must be provided to update");
-    }
-
-    if (request.name !== undefined) {
-      this.validateName(request.name);
-    }
-
-    if (request.active !== undefined) {
-      this.validateActive(request.active);
-    }
-  }
-
-  private validateName(name: string): void {
-    if (typeof name !== "string") {
-      throw new BadRequestError("Name must be a string");
-    }
-
-    const trimmed = name.trim();
-
-    if (!trimmed) {
-      throw new BadRequestError("Name cannot be empty");
-    }
-
-    if (trimmed.length < 3) {
-      throw new BadRequestError("Name must be at least 3 characters");
-    }
-  }
-
-  private validateActive(active: boolean): void {
-    if (typeof active !== "boolean") {
-      throw new BadRequestError("Active must be a boolean");
-    }
-  }
-
-  private buildUpdatedPartner(existing: Partner,request: UpdatePartnerDTO): Partner {
-    return new Partner(
-      new UniqueId(existing.getId()),
-      request.name ?? existing.getName(),
-      request.active ?? existing.isActive()
+    const uniqueId = new UniqueId(req.id);
+    const partner = new Partner(
+      uniqueId, 
+      req.name ?? existingPartner.getName(), 
+      req.active ?? existingPartner.isActive()
     );
-  }
+    
+    const updatedPartner = await this.partnerRepository.update(partner);
+    if (!updatedPartner) throw new AppError('Error updating Partner');
 
+    const result: UpdatePartnerResponseDTO = {
+      id: updatedPartner.getId(),
+      name: updatedPartner.getName(),
+      active: updatedPartner.isActive()
+    };
+    return result;
+  }
 }

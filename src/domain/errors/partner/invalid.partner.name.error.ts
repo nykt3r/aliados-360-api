@@ -1,4 +1,4 @@
-import { BadRequestError } from "../../shared/errors/app.error";
+import { BadRequestError } from "../../../shared/errors/app.error";
 
 export class InvalidPartnerNameError extends BadRequestError {
   constructor() {

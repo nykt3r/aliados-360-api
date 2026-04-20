@@ -1,7 +1,7 @@
 import partnersData from "../../data/partners.json"
 import { Partner } from "../../../../domain/entities/partner.entity"
-import { IPartnerRepository } from "../../../../domain/repositories/partner.repository"
-import { PartnerNotFoundError } from "../../../../domain/errors/partner.not.found.error"
+import { IPartnerRepository } from "../../../../domain/interfaces/repositories/partner.repository.interface"
+import { PartnerNotFoundError } from "../../../../domain/errors/partner/partner.not.found.error"
 import { PartnerMapper, PartnerPrimitives } from "../../mappers/partner.mapper"
 
 export class JsonPartnerRepository implements IPartnerRepository {

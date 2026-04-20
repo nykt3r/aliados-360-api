@@ -1,66 +1,55 @@
 import { Request, Response } from "express";
-import { CreatePartner } from "../../../../application/useCases/partners/createPartner.usecase";
-import { GetPartnerById } from "../../../../application/useCases/partners/getPartnerById.usecase";
-import { GetAllPartners } from "../../../../application/useCases/partners/getAllPartner.usecase";
-import { UpdatePartner } from "../../../../application/useCases/partners/updatePartner.usecase";
+import { IGetAllPartnersUseCase } from "../../../../domain/interfaces/useCases/partners/getAllPartners.usecase.interface";
+import { IGetPartnerByIdUseCase } from "../../../../domain/interfaces/useCases/partners/getPartnerById.usecase.interface";
+import { ICreatePartnerUseCase } from "../../../../domain/interfaces/useCases/partners/createPartner.usecase.interface";
+import { IUpdatePartnerUseCase } from "../../../../domain/interfaces/useCases/partners/updatePartner.usecase.interface";
+import { GetAllPartnersResponseDTO } from "../../../../application/dto/partners/getAllPartners.dto";
+import { GetPartnerByIdRequestDTO, GetPartnerByIdResponseDTO } from "../../../../application/dto/partners/getPartnerById.dto";
+import { CreatePartnerRequestDTO, CreatePartnerResponseDTO } from "../../../../application/dto/partners/createPartner.dto";
+import { UpdatePartnerRequestDTO, UpdatePartnerResponseDTO } from "../../../../application/dto/partners/updatePartner.dto";
 
-export class CreatePartnerController {
-  constructor(private createPartner: CreatePartner) {}
+export class PartnerController {
+  constructor(
+    private readonly getAllPartnersUseCase: IGetAllPartnersUseCase,
+    private readonly getPartnerByIdUseCase: IGetPartnerByIdUseCase,
+    private readonly createPartnerUseCase: ICreatePartnerUseCase,
+    private readonly updatePartnerUseCase: IUpdatePartnerUseCase
+  ) {}
 
-  async handle(req: Request, res: Response) {
-    const { name } = req.body;
-
-    const partner = await this.createPartner.execute({
-      name,
-    });
-
-    res.status(201).json({
-      id: partner.getId(),
-      name: partner.getName(),
-      active: partner.isActive(),
-    });
+  getAllPartners = async (
+    _req: Request, 
+    res: Response<GetAllPartnersResponseDTO[]>
+  ): Promise<void> => {
+      const result = await this.getAllPartnersUseCase.execute();
+      res.status(200).json(result);
   }
 
-}
-
-export class GetPartnerByIdController {
-  constructor(private getPartnerById: GetPartnerById) {}
-
-  async handle(req: Request, res: Response) {
-    const { id } = req.params as { id: string };
-    const partner = await this.getPartnerById.execute({
-      id,
-    });
-
-    res.status(200).json({
-      id: partner.getId(),
-      name: partner.getName(),
-      active: partner.isActive(),
-    });
-  }
-}
-
-export class GetAllPartnersController {
-  constructor(private getAllPartners: GetAllPartners) {}
-  async handle(_req: Request, res: Response) {
-    const partners = await this.getAllPartners.execute();
-    res.status(200).json(partners);
-  }
-}
-
-export class UpdatePartnerController {
-  constructor(private updatePartner: UpdatePartner) {}
-  async handle(req: Request, res: Response) {
-    const { id } = req.params as { id: string };
-    const { name, active } = req.body;
-
-    await this.updatePartner.execute({
-      id,
-      name,
-      active,
-    });
-
-    res.status(204).send();
+  getPartnerById = async (
+    req: Request<GetPartnerByIdRequestDTO>, 
+    res: Response<GetPartnerByIdResponseDTO>
+  ): Promise<void> => {
+    const result = await this.getPartnerByIdUseCase.execute(req.params);
+    res.status(200).json(result);
   }
 
+  createPartner = async (
+    req: Request<{}, CreatePartnerResponseDTO, CreatePartnerRequestDTO>, 
+    res: Response<CreatePartnerResponseDTO>
+  ): Promise<void> => {
+    const result = await this.createPartnerUseCase.execute(req.body);
+    res.status(201).json(result);
+  }
+
+  updatePartner = async (
+    req: Request<{ id: string }, UpdatePartnerResponseDTO, UpdatePartnerRequestDTO>, 
+    res: Response<UpdatePartnerResponseDTO>
+  ): Promise<void> => {
+    const request: UpdatePartnerRequestDTO = {
+      id: req.params.id,
+      name: req.body.name,
+      active: req.body.active
+    }
+    const result = await this.updatePartnerUseCase.execute(request);
+    res.status(200).json(result);
+  }
 }

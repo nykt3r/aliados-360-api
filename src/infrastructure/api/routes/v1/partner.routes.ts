@@ -1,27 +1,32 @@
 import { Router } from "express";
-import { CreatePartnerController, GetPartnerByIdController, GetAllPartnersController, UpdatePartnerController} from "../../../api/controllers/v1/partner.controller";
-import { CreatePartner } from "../../../../../src/application/useCases/partners/createPartner.usecase";
-import { GetPartnerById } from "../../../../application/useCases/partners/getPartnerById.usecase";
-import { JsonPartnerRepository } from "../../../persistence/repositories/jsonRepository/partner.repository"
-import { GetAllPartners } from "../../../../application/useCases/partners/getAllPartner.usecase";
-import { UpdatePartner } from "../../../../application/useCases/partners/updatePartner.usecase";
+import { JsonPartnerRepository } from "../../../persistence/repositories/jsonRepository/partner.repository";
+import { GetAllPartnersUseCase } from "../../../../application/useCases/partners/getAllPartners.usecase";
+import { GetPartnerByIdUseCase } from "../../../../application/useCases/partners/getPartnerById.usecase";
+import { CreatePartnerUseCase } from "../../../../application/useCases/partners/createPartner.usecase";
+import { UpdatePartnerUseCase } from "../../../../application/useCases/partners/updatePartner.usecase";
+import { PartnerController } from "../../../api/controllers/v1/partner.controller";
+import { validateRequest } from "../../middlewares/validateRequest.middleware";
+import { createPartnerRequestSchema } from "../../../schemas/partner.schema";
 
 const router = Router();
 
 const repository = new JsonPartnerRepository();
 
-const createPartnerUseCase = new CreatePartner(repository);
-const createPartnerController = new CreatePartnerController(createPartnerUseCase);
-const getPartnerByIdUseCase = new GetPartnerById(repository);
-const getPartnerByIdController = new GetPartnerByIdController(getPartnerByIdUseCase);
-const getAllPartnersUseCase = new GetAllPartners(repository);
-const getAllPartnersController = new GetAllPartnersController(getAllPartnersUseCase);
-const updatePartnerUseCase = new UpdatePartner(repository);
-const updatePartnerController = new UpdatePartnerController(updatePartnerUseCase);
+const getAllPartnersUseCase = new GetAllPartnersUseCase(repository);
+const getPartnerByIdUseCase = new GetPartnerByIdUseCase(repository);
+const createPartnerUseCase = new CreatePartnerUseCase(repository);
+const updatePartnerUseCase = new UpdatePartnerUseCase(repository);
 
-router.post("/partners", (req, res) => createPartnerController.handle(req, res));
-router.get("/getbyid/partners/:id", (req, res) => getPartnerByIdController.handle(req, res));
-router.get("/get/partners", (req, res) => getAllPartnersController.handle(req, res));
-router.put("/update/partners/:id", (req, res) => updatePartnerController.handle(req, res));
+const partnerController = new PartnerController(
+    getAllPartnersUseCase, 
+    getPartnerByIdUseCase, 
+    createPartnerUseCase,
+    updatePartnerUseCase
+);
+
+router.get("/partners", (req, res) => partnerController.getAllPartners(req, res));
+router.get("/partners/:id", (req, res) => partnerController.getPartnerById(req, res));
+router.post("/partners", validateRequest(createPartnerRequestSchema), (req, res) => partnerController.createPartner(req, res));
+router.patch("/partners/:id", (req, res) => partnerController.updatePartner(req, res));
 
 export default router;

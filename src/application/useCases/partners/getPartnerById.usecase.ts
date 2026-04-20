@@ -1,21 +1,26 @@
-import { Partner } from "../../../domain/entities/partner.entity";
-import { PartnerNotFoundError } from "../../../domain/errors/partner/partner.not.found.error";
+import { IGetPartnerByIdUseCase } from "../../../domain/interfaces/useCases/partners/getPartnerById.usecase.interface";
 import { IPartnerRepository } from "../../../domain/interfaces/repositories/partner.repository.interface";
-import { GetPartnerByIdDTO } from "../../dto/partners/getPartnerById.dto";
+import { 
+  GetPartnerByIdRequestDTO, 
+  GetPartnerByIdResponseDTO 
+} from "../../dto/partners/getPartnerById.dto";
+import { PartnerNotFoundError } from "../../../domain/errors/partner/partner.not.found.error";
 
-export class GetPartnerById {
-  constructor(private partnerRepository: IPartnerRepository) {}
+export class GetPartnerByIdUseCase implements IGetPartnerByIdUseCase {
+  constructor(
+    private readonly partnerRepository: IPartnerRepository
+  ) {}
 
-  async execute(request: GetPartnerByIdDTO): Promise<Partner> {
-    const partner = await this.partnerRepository.findById(request.id);
+  async execute(req: GetPartnerByIdRequestDTO): Promise<GetPartnerByIdResponseDTO> {
+    const partner = await this.partnerRepository.findById(req.id);
+    
+    if (!partner) throw new PartnerNotFoundError();
 
-    return this.ensurePartnerExists(partner, request.id);
-  }
-
-  private ensurePartnerExists(partner: Partner | null, _id: string): Partner {
-    if (!partner) {
-      throw new PartnerNotFoundError();
-    }
-    return partner;
-  }
+    const result: GetPartnerByIdResponseDTO = {
+      id: partner.getId(),
+      name: partner.getName(),
+      active: partner.isActive()
+    };
+    return result;
+  };
 }

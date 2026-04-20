@@ -2,18 +2,18 @@
 GET http://localhost:3000/api/v1/partners HTTP/1.1
 
 ### Obtener un partner por id
-GET http://localhost:3000/api/v1/partners/no-existe HTTP/1.1
+GET http://localhost:3000/api/v1/partners/ HTTP/1.1
 
 ### Crear un Partner con POST
 POST http://localhost:3000/api/v1/partners HTTP/1.1
 content-type: application/json 
 
 {
-  "name": ""
+  "name": "win"
 }
 
 ### Actualizar un Partner con PUT
-PUT http://localhost:3000/api/v1/partners/1a2b3c4d-0001
-Content-Type: application/json
+# PUT http://localhost:3000/api/v1/partners/1a2b3c4d-0001
+# Content-Type: application/json
 
-{"active":"true"}
+# {"active":"true"}

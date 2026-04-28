@@ -1,7 +1,7 @@
 import { IGetAllPartnersUseCase } from "../../../domain/interfaces/useCases/partners/getAllPartners.usecase.interface";
 import { IPartnerRepository } from "../../../domain/interfaces/repositories/partner.repository.interface";
 import { GetAllPartnersResponseDTO } from "../../dto/partners/getAllPartners.dto";
-import { AppError } from "../../../shared/errors/app.error";
+import { NotFoundError } from "../../../shared/errors/app.error";
 
 export class GetAllPartnersUseCase implements IGetAllPartnersUseCase  {
   constructor(
@@ -10,8 +10,7 @@ export class GetAllPartnersUseCase implements IGetAllPartnersUseCase  {
 
   async execute(): Promise<GetAllPartnersResponseDTO[]> {
     const partners = await this.partnerRepository.findAll();
-
-    if (!partners) throw new AppError("Error getting Partners");
+    if (!partners) throw new NotFoundError("Error getting Partners");
 
     const result: GetAllPartnersResponseDTO[] = partners.map(p => ({
       id: p.getId(),

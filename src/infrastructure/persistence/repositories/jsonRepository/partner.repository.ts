@@ -1,8 +1,8 @@
 import partnersData from "../../data/partners.json"
 import { Partner } from "../../../../domain/entities/partner.entity"
 import { IPartnerRepository } from "../../../../domain/interfaces/repositories/partner.repository.interface"
-import { PartnerNotFoundError } from "../../../../domain/errors/partner/partner.not.found.error"
 import { PartnerMapper, PartnerPrimitives } from "../../mappers/partner.mapper"
+import { NotFoundError } from "../../../../shared/errors/app.error"
 
 export class JsonPartnerRepository implements IPartnerRepository {
   private partners: PartnerPrimitives[]
@@ -39,7 +39,7 @@ export class JsonPartnerRepository implements IPartnerRepository {
     const index = this.partners.findIndex((p) => p.id === partner.getId())
 
     if (index === -1) {
-      throw new PartnerNotFoundError()
+      throw new NotFoundError("Partner not found")
     }
     const primitive = PartnerMapper.toPersistence(partner)
     this.partners[index] = primitive

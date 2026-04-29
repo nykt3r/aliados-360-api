@@ -1,10 +1,9 @@
 import { IUpdatePartnerUseCase } from "../../../domain/interfaces/useCases/partners/updatePartner.usecase.interface";
 import { IPartnerRepository } from "../../../domain/interfaces/repositories/partner.repository.interface";
 import { UpdatePartnerRequestDTO, UpdatePartnerResponseDTO } from "../../../../src/application/dto/partners/updatePartner.dto";
-import { PartnerNotFoundError } from "../../../domain/errors/partner/partner.not.found.error";
 import { UniqueId } from "../../../domain/valueObjects/uniqueId.vo";
 import { Partner } from "../../../domain/entities/partner.entity";
-import { AppError } from "../../../shared/errors/app.error";
+import { AppError, NotFoundError } from "../../../shared/errors/app.error";
 
 export class UpdatePartnerUseCase implements IUpdatePartnerUseCase {
   constructor(
@@ -13,7 +12,7 @@ export class UpdatePartnerUseCase implements IUpdatePartnerUseCase {
 
   async execute(req: UpdatePartnerRequestDTO): Promise<UpdatePartnerResponseDTO> {
     const existingPartner = await this.partnerRepository.findById(req.id);
-    if (!existingPartner) throw new PartnerNotFoundError;
+    if (!existingPartner) throw new NotFoundError("Partner not found");
 
     const uniqueId = new UniqueId(req.id);
     const partner = new Partner(

@@ -1,4 +1,4 @@
-import { InvalidPartnerNameError } from "../errors/partner/invalid.partner.name.error"; // Review and refactor errors by layer -- Using diferent error (Entities should use generic)
+import { BadRequestError } from "../../shared/errors/app.error";
 import { UniqueId } from "../valueObjects/uniqueId.vo";
 
 export class Partner { // Readonly props
@@ -8,7 +8,7 @@ export class Partner { // Readonly props
 
   constructor(id: UniqueId, name: string, active: boolean = true) {
     if (!name || name.trim().length === 0) { // Encapsulate validation
-      throw new InvalidPartnerNameError();
+      throw new BadRequestError("Partner name is required");
     }
 
     this.id = id;

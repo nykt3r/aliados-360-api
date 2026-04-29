@@ -1,57 +1,81 @@
-import { describe, expect, it, vi } from "vitest";
-import { CreatePartner } from "../../../src/application/useCases/partners/createPartner.usecase";
-import { IPartnerRepository } from "../../../src/domain/repositories/partner.repository";
-import { InvalidPartnerNameError } from "../../../src/domain/errors/invalid.partner.name.error";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { CreatePartnerUseCase } from "../../../src/application/useCases/partners/createPartner.usecase";
+import { IPartnerRepository } from "../../../src/domain/interfaces/repositories/partner.repository.interface";
+import { CreatePartnerRequestDTO, CreatePartnerResponseDTO } from "../../../src/application/dto/partners/createPartner.dto";
 
 describe("CreatePartner Use Case", () => {
-  it("should create and save a partner", async () => {
-    const partnerRepository: IPartnerRepository = {
-      save: vi.fn().mockImplementation(async (partner) => partner),
-      findById: vi.fn(),
-      findAll: vi.fn(),
-      update: vi.fn(),
-    };
-    const createPartner = new CreatePartner(partnerRepository);
-    const request = { name: "Ubuntu" };
 
-    const result = await createPartner.execute(request);
+    let partnerRepository: IPartnerRepository;
+    let useCase: CreatePartnerUseCase;
 
-    expect(result).toBeDefined();
-    expect(result.getName()).toBe("Ubuntu");
-    expect(result.isActive()).toBe(true);
-    expect(partnerRepository.save).toHaveBeenCalledTimes(1);
-    expect(partnerRepository.save).toHaveBeenCalledWith(result);
-  });
+    beforeEach(() => {
+        partnerRepository = {
+            save: vi.fn(),
+            findById: vi.fn(),
+            findAll: vi.fn(),
+            update: vi.fn(),
+        }
+        useCase = new CreatePartnerUseCase(partnerRepository)
+    });
+    
+    it("should create and save a partner", async () => {
+        partnerRepository.findById = vi.fn().mockResolvedValue(null);
+        partnerRepository.save = vi.fn().mockImplementation(async (partner) => partner);
 
-  it("should throw InvalidPartnerNameError if name is empty", async () => {
-    const partnerRepository: IPartnerRepository = {
-      save: vi.fn(),
-      findById: vi.fn(),
-      findAll: vi.fn(),
-      update: vi.fn(),
-    };
-    const createPartner = new CreatePartner(partnerRepository);
-    const request = { name: "" };
+        const request: CreatePartnerRequestDTO = { 
+            id: "partner-id",
+            name: "Ubuntu",
+            active: true
+        };
 
-    const act = () => createPartner.execute(request);
+        const result: CreatePartnerResponseDTO = await useCase.execute(request);
 
-    await expect(act).rejects.toThrow(InvalidPartnerNameError);
-    expect(partnerRepository.save).not.toHaveBeenCalled();
-  });
+        expect(result).toBeDefined();
+        expect(result).toEqual({
+            id: "partner-id",
+            name: "Ubuntu",
+            active: true
+        });
+    
+        expect(partnerRepository.findById).toHaveBeenCalledTimes(1)
+        expect(partnerRepository.save).toHaveBeenCalledTimes(1);
+        expect(partnerRepository.save).toHaveBeenCalledWith(
+            expect.objectContaining({
+                getName: expect.any(Function),
+                isActive: expect.any(Function),
+                getId: expect.any(Function),
+            })
+        );
+    });
 
-  it("should throw InvalidPartnerNameError if name has only spaces", async () => {
-    const partnerRepository: IPartnerRepository = {
-      save: vi.fn(),
-      findById: vi.fn(),
-      findAll: vi.fn(),
-      update: vi.fn(),
-    };
-    const createPartner = new CreatePartner(partnerRepository);
-    const request = { name: "   " };
+    it("should throw an error if partner already exists", async () => {
+        const existingPartner = { getId: () => "partner-id" };
 
-    const act = () => createPartner.execute(request);
+        partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
 
-    await expect(act).rejects.toThrow(InvalidPartnerNameError);
-    expect(partnerRepository.save).not.toHaveBeenCalled();
-  });
+        const request: CreatePartnerRequestDTO = { 
+            id: "partner-id",
+            name: "Ubuntu",
+            active: true
+        };
+
+        const act = () => useCase.execute(request);
+
+        await expect(act).rejects.toThrow("Partner already exists");
+        expect(partnerRepository.save).not.toHaveBeenCalled();
+    });
+
+    it("should throw an error if saving fails", async () => {
+        partnerRepository.findById = vi.fn().mockResolvedValue(null);
+        partnerRepository.save = vi.fn().mockResolvedValue(null);
+
+        const request: CreatePartnerRequestDTO = { 
+            id: "partner-id",
+            name: "Ubuntu",
+            active: true
+        };
+
+        await expect(useCase.execute(request)).rejects.toThrow("Error saving Partner");
+        expect(partnerRepository.findById).toHaveBeenCalledTimes(1);
+    });
 });

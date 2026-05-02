@@ -1,112 +1,112 @@
-import { describe, expect, it, vi } from "vitest";
-import { UpdatePartner } from "../../../src/application/useCases/partners/updatePartner.usecase";
-import { IPartnerRepository } from "../../../src/domain/repositories/partner.repository";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { UpdatePartnerUseCase } from "../../../src/application/useCases/partners/updatePartner.usecase";
+import { IPartnerRepository } from "../../../src/domain/interfaces/repositories/partner.repository.interface";
+import { UpdatePartnerRequestDTO, UpdatePartnerResponseDTO } from "../../../src/application/dto/partners/updatePartner.dto";
 import { Partner } from "../../../src/domain/entities/partner.entity";
 import { UniqueId } from "../../../src/domain/valueObjects/uniqueId.vo";
-import { PartnerNotFoundError } from "../../../src/domain/errors/partner.not.found.error";
 
 describe("UpdatePartner Use Case", () => {
-  it("should update the partner name", async () => {
-    const partner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
-    const partnerRepository: IPartnerRepository = {
-      save: vi.fn(),
-      findById: vi.fn().mockResolvedValue(partner),
-      findAll: vi.fn(),
-      update: vi.fn().mockResolvedValue(partner),
-    };
-    const updatePartner = new UpdatePartner(partnerRepository);
-    const request = { id: "partner-id", name: "Canonical" };
 
-    const result = await updatePartner.execute(request);
+    let partnerRepository: IPartnerRepository;
+    let useCase: UpdatePartnerUseCase;
 
-    expect(result.getName()).toBe("Canonical");
-    expect(partnerRepository.findById).toHaveBeenCalledWith("partner-id");
-    expect(partnerRepository.update).toHaveBeenCalledTimes(1);
-    expect(partnerRepository.update).toHaveBeenCalledWith(result);
-  });
+    beforeEach(() => {
+        partnerRepository = {
+            save: vi.fn(),
+            findById: vi.fn(),
+            findAll: vi.fn(),
+            update: vi.fn(),
+        }
+        useCase = new UpdatePartnerUseCase(partnerRepository)
+    });
 
-  it("should activate the partner", async () => {
-    const partner = new Partner(new UniqueId("partner-id"), "Ubuntu", false);
-    const partnerRepository: IPartnerRepository = {
-      save: vi.fn(),
-      findById: vi.fn().mockResolvedValue(partner),
-      findAll: vi.fn(),
-      update: vi.fn().mockResolvedValue(partner),
-    };
-    const updatePartner = new UpdatePartner(partnerRepository);
-    const request = { id: "partner-id", active: true };
+    it("should update the partner name", async () => {
+        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
 
-    const result = await updatePartner.execute(request);
+        partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
+        partnerRepository.update = vi.fn().mockImplementation(async (partner) => partner);
 
-    expect(result.isActive()).toBe(true);
-    expect(partnerRepository.update).toHaveBeenCalledWith(result);
-  });
+        const request: UpdatePartnerRequestDTO = { id: "partner-id", name: "Canonical" };
+        const result: UpdatePartnerResponseDTO = await useCase.execute(request);
 
-  it("should deactivate the partner", async () => {
-    const partner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
-    const partnerRepository: IPartnerRepository = {
-      save: vi.fn(),
-      findById: vi.fn().mockResolvedValue(partner),
-      findAll: vi.fn(),
-      update: vi.fn().mockResolvedValue(partner),
-    };
-    const updatePartner = new UpdatePartner(partnerRepository);
-    const request = { id: "partner-id", active: false };
+        expect(result).toEqual({
+            id: "partner-id",
+            name: "Canonical",
+            active: true
+        });
 
-    const result = await updatePartner.execute(request);
+        expect(partnerRepository.findById).toHaveBeenCalledWith("partner-id");
+        expect(partnerRepository.update).toHaveBeenCalledTimes(1);
+        expect(partnerRepository.update).toHaveBeenCalledWith(
+            expect.objectContaining({
+                getName: expect.any(Function),
+                isActive: expect.any(Function),
+            })
+        );
+    });
 
-    expect(result.isActive()).toBe(false);
-    expect(partnerRepository.update).toHaveBeenCalledWith(result);
-  });
+    it("should activate the partner", async () => {
+        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", false);
 
-  it("should update name and active status", async () => {
-    const partner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
-    const partnerRepository: IPartnerRepository = {
-      save: vi.fn(),
-      findById: vi.fn().mockResolvedValue(partner),
-      findAll: vi.fn(),
-      update: vi.fn().mockResolvedValue(partner),
-    };
-    const updatePartner = new UpdatePartner(partnerRepository);
-    const request = { id: "partner-id", name: "Canonical", active: false };
+        partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
+        partnerRepository.update = vi.fn().mockImplementation(async (partner) => partner);
 
-    const result = await updatePartner.execute(request);
+        const request: UpdatePartnerRequestDTO = { id: "partner-id", active: true };
+        const result: UpdatePartnerResponseDTO = await useCase.execute(request);
 
-    expect(result.getName()).toBe("Canonical");
-    expect(result.isActive()).toBe(false);
-    expect(partnerRepository.update).toHaveBeenCalledWith(result);
-  });
+        expect(result.active).toBe(true);
+    });     
 
-  it("should throw PartnerNotFoundError if partner does not exist", async () => {
-    const partnerRepository: IPartnerRepository = {
-      save: vi.fn(),
-      findById: vi.fn().mockResolvedValue(null),
-      findAll: vi.fn(),
-      update: vi.fn(),
-    };
-    const updatePartner = new UpdatePartner(partnerRepository);
-    const request = { id: "missing-id", name: "Canonical" };
+    it("should deactivate the partner", async () => {
+        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
 
-    const act = () => updatePartner.execute(request);
+        partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
+        partnerRepository.update = vi.fn().mockImplementation(async (partner) => partner);
 
-    await expect(act).rejects.toThrow(PartnerNotFoundError);
-    expect(partnerRepository.update).not.toHaveBeenCalled();
-  });
+        const request: UpdatePartnerRequestDTO = { id: "partner-id", active: false };
+        const result: UpdatePartnerResponseDTO = await useCase.execute(request);
 
-  it("should throw an error if name is empty", async () => {
-    const partner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
-    const partnerRepository: IPartnerRepository = {
-      save: vi.fn(),
-      findById: vi.fn().mockResolvedValue(partner),
-      findAll: vi.fn(),
-      update: vi.fn(),
-    };
-    const updatePartner = new UpdatePartner(partnerRepository);
-    const request = { id: "partner-id", name: "   " };
+        expect(result.active).toBe(false);
+    });
 
-    const act = () => updatePartner.execute(request);
+    it("should update name and active status", async () => {
+        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
 
-    await expect(act).rejects.toThrow("Name cannot be empty");
-    expect(partnerRepository.update).not.toHaveBeenCalled();
-  });
+        partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
+        partnerRepository.update = vi.fn().mockImplementation(async (partner) => partner);
+
+        const request: UpdatePartnerRequestDTO = { 
+            id: "partner-id", 
+            name: "Canonical", 
+            active: false 
+        };
+
+        const result: UpdatePartnerResponseDTO = await useCase.execute(request);
+
+        expect(result).toEqual({
+            id: "partner-id",
+            name: "Canonical",
+            active: false
+        });
+    });
+
+    it("should throw an error if partner does not exist", async () => {
+        partnerRepository.findById = vi.fn().mockResolvedValue(null);
+
+        const request: UpdatePartnerRequestDTO = { id: "missing-id", name: "Canonical" };
+
+        await expect(useCase.execute(request)).rejects.toThrow("Partner not found");
+
+        expect(partnerRepository.update).not.toHaveBeenCalled();
+    });
+
+    it("should throw an error if update fails", async () => {
+        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
+
+        partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
+        partnerRepository.update = vi.fn().mockResolvedValue(null);
+
+        const request: UpdatePartnerRequestDTO = { id: "partner-id", name: "Canonical" };
+        await expect(useCase.execute(request)).rejects.toThrow("Error updating Partner");
+    });
 });

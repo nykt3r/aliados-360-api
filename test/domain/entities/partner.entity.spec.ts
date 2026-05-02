@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Partner } from "../../../src/domain/entities/partner.entity";
 import { UniqueId } from "../../../src/domain/valueObjects/uniqueId.vo";
-import { InvalidPartnerNameError } from "../../../src/domain/errors/invalid.partner.name.error";
 
 describe("Partner entity", () => {
   it("should create a partner with valid data", () => {
@@ -22,16 +21,16 @@ describe("Partner entity", () => {
     expect(partner.isActive()).toBe(true);
   });
 
-  it("should throw InvalidPartnerNameError if name is empty", () => {
+  it("should throw an error if name is empty", () => {
     expect(() => {
       new Partner(new UniqueId(), "");
-    }).toThrow(InvalidPartnerNameError);
+    }).toThrow("Partner name is required");
   });
 
   it("should throw InvalidPartnerNameError if name contains only spaces", () => {
     expect(() => {
       new Partner(new UniqueId(), "   ");
-    }).toThrow(InvalidPartnerNameError);
+    }).toThrow("Partner name is required");
   });
 
   it("should deactivate the partner", () => {

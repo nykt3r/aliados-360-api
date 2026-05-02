@@ -13,8 +13,11 @@ export default defineConfig({
         "**/*.spec.ts",
         "**/node_modules/**",
         "src/config/**",
-        "test/**/*.spec.t",
-        "**/infraestructure/controllers/**",
+        "test/**/*.spec.ts",
+        "src/domain/errors/**",
+        "**/infrastructure/**",
+        "**/app.ts",
+        "**/server.ts"
       ],
     },
   },

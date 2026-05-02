@@ -5,8 +5,12 @@ import { GetPartnerByIdUseCase } from "../../../../application/useCases/partners
 import { CreatePartnerUseCase } from "../../../../application/useCases/partners/createPartner.usecase";
 import { UpdatePartnerUseCase } from "../../../../application/useCases/partners/updatePartner.usecase";
 import { PartnerController } from "../../../api/controllers/v1/partner.controller";
-import { validateRequest } from "../../middlewares/validateRequest.middleware";
-import { createPartnerRequestSchema } from "../../../schemas/partner.schema";
+import { validate } from "../../middlewares/validateRequest.middleware";
+import { createPartnerRequestSchema, updatePartnerParamsSchema, updatePartnerBodySchema } from "../../../schemas/partner.schema";
+
+type UpdatePartnerParams = {
+  id: string;
+};
 
 const router = Router();
 
@@ -26,7 +30,13 @@ const partnerController = new PartnerController(
 
 router.get("/partners", (req, res) => partnerController.getAllPartners(req, res));
 router.get("/partners/:id", (req, res) => partnerController.getPartnerById(req, res));
-router.post("/partners", validateRequest(createPartnerRequestSchema), (req, res) => partnerController.createPartner(req, res));
-router.patch("/partners/:id", (req, res) => partnerController.updatePartner(req, res));
+router.post("/partners", validate({ body: createPartnerRequestSchema }), (req, res) => partnerController.createPartner(req, res));
+router.patch<UpdatePartnerParams>("/partners/:id", 
+    validate({
+        params: updatePartnerParamsSchema,
+        body: updatePartnerBodySchema,
+    }),
+    (req, res) => partnerController.updatePartner(req, res)
+);
 
 export default router;

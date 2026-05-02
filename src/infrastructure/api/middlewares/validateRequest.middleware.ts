@@ -1,19 +1,37 @@
-// Middleware Genérico
-import { Request, Response, NextFunction } from "express";
-import { ZodSchema } from "zod";
+import { Request, Response, NextFunction } from "express"
+import { ZodTypeAny  } from "zod"
 
-export const validateRequest =
-  (schema: ZodSchema) =>
-  (req: Request, res: Response, next: NextFunction) => {
+type Schema = {
+  body?: ZodTypeAny 
+  params?: ZodTypeAny 
+  query?: ZodTypeAny 
+}
 
-    const result = schema.safeParse(req.body);
+export const validate = (schema: Schema) => {
+  return (req: Request, res: Response, next: NextFunction) => {
 
-    if (!result.success) {
-      return res.status(400).json({
-        error: result.error.flatten()
-      });
+    const validations: Array<keyof Schema> = ["body", "params", "query"];
+
+    for (const key of validations) {
+
+      const currentSchema = schema[key];
+
+      if (!currentSchema) continue;
+
+      const result = currentSchema.safeParse(req[key]);
+
+      if (!result.success) {
+        return res.status(422).json({
+          code: "VALIDATION_ERROR",
+          message: `Invalid ${key}`,
+          errors: result.error.flatten(),
+        });
+      }
+
+      req[key] = result.data;
     }
-    req.body = result.data;
+    
     next();
     return;
-  };
+  }
+}

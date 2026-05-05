@@ -1,12 +1,12 @@
 import { Router } from "express";
+import { container } from "../../../config/container";
 import { HealthController } from "../../api/controllers/health.controller";
-import { HealthService } from "../../services/health.service"
 
 const router = Router();
 
-const healthService = new HealthService()
-const healthController = new HealthController(healthService);
-
-router.get("/", async (req, res) => healthController.getHealth(req, res))
+router.get("/",  async (req, res) => {
+    const controller = container.resolve<HealthController>("healthController")
+    return controller.getHealth(req, res);
+});
 
 export default router;

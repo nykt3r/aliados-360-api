@@ -1,0 +1,32 @@
+import { createContainer, asClass, InjectionMode } from "awilix";
+import { JsonPartnerRepository } from "../infrastructure/persistence/repositories/jsonRepository/partner.repository";
+import { GetAllPartnersUseCase } from "../application/useCases/partners/getAllPartners.usecase";
+import { GetPartnerByIdUseCase } from "../application/useCases/partners/getPartnerById.usecase";
+import { CreatePartnerUseCase } from "../application/useCases/partners/createPartner.usecase";
+import { UpdatePartnerUseCase } from "../application/useCases/partners/updatePartner.usecase";
+import { PartnerController } from "../infrastructure/api/controllers/v1/partner.controller";
+import { HealthService } from "../infrastructure/services/health.service";
+import { HealthController } from "../infrastructure/api/controllers/health.controller";
+
+export const container = createContainer({
+  injectionMode: InjectionMode.CLASSIC,
+});
+
+container.register({
+  // Repositories
+  partnerRepository: asClass(JsonPartnerRepository).singleton(),
+
+  // Use cases
+  getAllPartnersUseCase: asClass(GetAllPartnersUseCase).scoped(),
+  getPartnerByIdUseCase: asClass(GetPartnerByIdUseCase).scoped(),
+  createPartnerUseCase: asClass(CreatePartnerUseCase).scoped(),
+  updatePartnerUseCase: asClass(UpdatePartnerUseCase).scoped(),
+
+  // Services
+  healthService: asClass(HealthService).singleton(),
+
+  // Controllers
+  partnerController: asClass(PartnerController).scoped(),
+  healthController: asClass(HealthController).scoped(),
+
+});

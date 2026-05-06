@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { JsonPartnerRepository } from "../../../persistence/repositories/jsonRepository/partner.repository";
-import { GetAllPartnersUseCase } from "../../../../application/useCases/partners/getAllPartners.usecase";
-import { GetPartnerByIdUseCase } from "../../../../application/useCases/partners/getPartnerById.usecase";
-import { CreatePartnerUseCase } from "../../../../application/useCases/partners/createPartner.usecase";
-import { UpdatePartnerUseCase } from "../../../../application/useCases/partners/updatePartner.usecase";
-import { PartnerController } from "../../../api/controllers/v1/partner.controller";
-import { validate } from "../../middlewares/validateRequest.middleware";
-import { createPartnerRequestSchema, updatePartnerParamsSchema, updatePartnerBodySchema } from "../../../schemas/partner.schema";
+import { container } from "../../../../config/container";
+import { validate } from "../../middlewares/validate.middleware";
+import { 
+    createPartnerRequestSchema, 
+    updatePartnerParamsSchema, 
+    updatePartnerBodySchema 
+} from "../../../schemas/partner.schema";
+import { PartnerController } from "../../controllers/v1/partner.controller";
 
 type UpdatePartnerParams = {
   id: string;
@@ -14,29 +14,32 @@ type UpdatePartnerParams = {
 
 const router = Router();
 
-const repository = new JsonPartnerRepository();
+router.get("/", async (req, res) => {
+    const controller = container.resolve<PartnerController>("partnerController");
+    return controller.getAllPartners(req, res);
+});
 
-const getAllPartnersUseCase = new GetAllPartnersUseCase(repository);
-const getPartnerByIdUseCase = new GetPartnerByIdUseCase(repository);
-const createPartnerUseCase = new CreatePartnerUseCase(repository);
-const updatePartnerUseCase = new UpdatePartnerUseCase(repository);
+router.get("/:id", async (req, res) => {
+    const controller = container.resolve<PartnerController>("partnerController");
+    return controller.getPartnerById(req, res);
+});
 
-const partnerController = new PartnerController(
-    getAllPartnersUseCase, 
-    getPartnerByIdUseCase, 
-    createPartnerUseCase,
-    updatePartnerUseCase
-);
+router.post("/", 
+    validate({ body: createPartnerRequestSchema }), 
+    async (req, res) => {
+    const controller = container.resolve<PartnerController>("partnerController");
+    return controller.createPartner(req, res);
+});
+    
 
-router.get("/partners", (req, res) => partnerController.getAllPartners(req, res));
-router.get("/partners/:id", (req, res) => partnerController.getPartnerById(req, res));
-router.post("/partners", validate({ body: createPartnerRequestSchema }), (req, res) => partnerController.createPartner(req, res));
-router.patch<UpdatePartnerParams>("/partners/:id", 
+router.patch<UpdatePartnerParams>("/:id", 
     validate({
         params: updatePartnerParamsSchema,
         body: updatePartnerBodySchema,
     }),
-    (req, res) => partnerController.updatePartner(req, res)
-);
+    async (req, res) => {
+    const controller = container.resolve<PartnerController>("partnerController");
+    return controller.updatePartner(req, res)
+});
 
 export default router;

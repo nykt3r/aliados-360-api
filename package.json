@@ -16,6 +16,9 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "awilix": "^13.0.3",
+    "awilix-express": "^11.0.1",
+    "chalk": "^5.6.2",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",

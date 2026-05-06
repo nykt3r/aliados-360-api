@@ -1,9 +1,32 @@
 import { createServer } from "./app";
+import { env } from "./config/env";
+import { printEnvironmentVariables } from "./util/envPrinter.util";
 
-const PORT = process.env.PORT || 3000;
+async function bootstrap() {
 
-const server = createServer();
+  const port = env.port;
+  const app = createServer();
 
-server.listen(PORT, async () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+  const server = app.listen(port, async () => {
+      console.log(`🚀 ${env.appName} v${env.appVersion}`);
+      console.log(`🌎 Environment: ${env.nodeEnv}`);
+      console.log(`📡 Running on http://localhost:${port}`);
+
+      if (env.showEnv) {
+        printEnvironmentVariables();
+      }
+  });
+
+  const shutdown = async () => {
+    console.info("🛑 Shutting down gracefully...");
+
+    server.close(async () => {
+      process.exit(0);
+    });
+  };
+
+  process.on("SIGINT", shutdown);
+  process.on("SIGTERM", shutdown);
+}
+
+bootstrap();

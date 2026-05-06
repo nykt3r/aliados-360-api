@@ -17,7 +17,8 @@ export default defineConfig({
         "src/domain/errors/**",
         "**/infrastructure/**",
         "**/app.ts",
-        "**/server.ts"
+        "**/server.ts",
+        "src/util/**"
       ],
     },
   },

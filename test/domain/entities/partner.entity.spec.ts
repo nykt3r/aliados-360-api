@@ -5,18 +5,18 @@ import { UniqueId } from "../../../src/domain/valueObjects/uniqueId.vo";
 describe("Partner entity", () => {
   it("should create a partner with valid data", () => {
     const id = new UniqueId();
-    const name = "Ubuntu";
+    const name = "Microsoft";
     const partner = new Partner(id, name);
 
     expect(partner).toBeDefined();
     expect(partner.getId()).toBe(id.getValue());
-    expect(partner.getName()).toBe("Ubuntu");
+    expect(partner.getName()).toBe("Microsoft");
     expect(partner.isActive()).toBe(true);
   });
 
   it("should be active by default", () => {
     const id = new UniqueId();
-    const partner = new Partner(id, "Ubuntu");
+    const partner = new Partner(id, "Microsoft");
 
     expect(partner.isActive()).toBe(true);
   });
@@ -27,14 +27,14 @@ describe("Partner entity", () => {
     }).toThrow("Partner name is required");
   });
 
-  it("should throw InvalidPartnerNameError if name contains only spaces", () => {
+  it("should throw an error if name contains only spaces", () => {
     expect(() => {
       new Partner(new UniqueId(), "   ");
     }).toThrow("Partner name is required");
   });
 
   it("should deactivate the partner", () => {
-    const partner = new Partner(new UniqueId(), "Ubuntu", true);
+    const partner = new Partner(new UniqueId(), "Microsoft", true);
 
     partner.deactivate();
 
@@ -42,7 +42,7 @@ describe("Partner entity", () => {
   });
 
   it("should activate the partner", () => {
-    const partner = new Partner(new UniqueId(), "Ubuntu", false);
+    const partner = new Partner(new UniqueId(), "Microsoft", false);
 
     partner.activate();
 
@@ -50,7 +50,7 @@ describe("Partner entity", () => {
   });
 
   it("should activate a partner after being deactivated", () => {
-    const partner = new Partner(new UniqueId(), "Ubuntu", true);
+    const partner = new Partner(new UniqueId(), "Microsoft", true);
 
     partner.deactivate();
     expect(partner.isActive()).toBe(false);

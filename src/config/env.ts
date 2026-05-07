@@ -12,6 +12,11 @@ export const env = {
   logLevel: process.env.LOG_LEVEL || "info",
   jwtSecret: process.env.JWT_SECRET || "secret",
   dataBase: {
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
     dataBaseUrl: process.env.DATABASE_URL
   },
   httpConfig: {

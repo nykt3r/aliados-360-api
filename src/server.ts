@@ -1,8 +1,9 @@
 import { createServer } from "./app";
 import { env } from "./config/env";
+import { connectDatabase, closeDatabase } from "./infrastructure/persistence/database/postgre";
 import { printEnvironmentVariables } from "./util/envPrinter.util";
 
-async function bootstrap() {
+async function launch() {
 
   const port = env.port;
   const app = createServer();
@@ -11,6 +12,13 @@ async function bootstrap() {
       console.log(`🚀 ${env.appName} v${env.appVersion}`);
       console.log(`🌎 Environment: ${env.nodeEnv}`);
       console.log(`📡 Running on http://localhost:${port}`);
+
+      try {
+        await connectDatabase();
+        console.log("✅ Database connected");
+      } catch (error) {
+        console.error("❌ Database connection failed");
+      }
 
       if (env.showEnv) {
         printEnvironmentVariables();
@@ -21,6 +29,7 @@ async function bootstrap() {
     console.info("🛑 Shutting down gracefully...");
 
     server.close(async () => {
+      await closeDatabase();
       process.exit(0);
     });
   };
@@ -29,4 +38,4 @@ async function bootstrap() {
   process.on("SIGTERM", shutdown);
 }
 
-bootstrap();
+launch();

@@ -1,5 +1,5 @@
 import { createContainer, asClass, InjectionMode } from "awilix";
-import { JsonPartnerRepository } from "../infrastructure/persistence/repositories/jsonRepository/partner.repository";
+import { PostgrePartnerRepository } from "../infrastructure/persistence/repositories/postgreRepository/partner.repository";
 import { GetAllPartnersUseCase } from "../application/useCases/partners/getAllPartners.usecase";
 import { GetPartnerByIdUseCase } from "../application/useCases/partners/getPartnerById.usecase";
 import { CreatePartnerUseCase } from "../application/useCases/partners/createPartner.usecase";
@@ -14,7 +14,7 @@ export const container = createContainer({
 
 container.register({
   // Repositories
-  partnerRepository: asClass(JsonPartnerRepository).singleton(),
+  partnerRepository: asClass(PostgrePartnerRepository).singleton(),
 
   // Use cases
   getAllPartnersUseCase: asClass(GetAllPartnersUseCase).scoped(),

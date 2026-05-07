@@ -30,6 +30,7 @@ async function launch() {
 
     server.close(async () => {
       await closeDatabase();
+      process.exit(0);
     });
   };
 

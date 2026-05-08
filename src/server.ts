@@ -1,6 +1,6 @@
 import { createServer } from "./app";
 import { env } from "./config/env";
-import { connectDatabase, closeDatabase } from "./infrastructure/persistence/database/postgre";
+import { connectDatabase, closeDatabase } from "./infrastructure/persistence/database/postgres";
 import { printEnvironmentVariables } from "./util/envPrinter.util";
 
 async function launch() {

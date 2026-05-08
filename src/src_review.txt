@@ -1,2 +1,0 @@
-- Define express.d.ts on 'types' folder for 'Awilix' dependency
-- Define container and env on 'config' folder for dependency injection and env_var loading

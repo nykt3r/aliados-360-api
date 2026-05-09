@@ -17,7 +17,7 @@ export const env = {
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-    dataBaseUrl: process.env.DATABASE_URL
+    url: process.env.DB_URL
   },
   httpConfig: {
     timeOut: process.env.HTTP_TIME_OUT ? Number(process.env.HTTP_TIME_OUT) : 20000,

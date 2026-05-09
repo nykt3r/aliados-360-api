@@ -1,4 +1,4 @@
-import { pool } from "../../database/postgre";
+import { pool } from "../../database/postgres";
 import { Partner } from "../../../../domain/entities/partner.entity"
 import { PartnerMapper, PartnerPrimitives } from "../../mappers/partner.mapper"
 import { IPartnerRepository } from "../../../../domain/interfaces/repositories/partner.repository.interface"

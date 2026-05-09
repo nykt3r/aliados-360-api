@@ -3,9 +3,7 @@ import { env } from "../../../config/env";
 
 export const pool = new Pool({
   connectionString: env.dataBase.url,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: false
 });
 
 export const connectDatabase = async (): Promise<void> => {

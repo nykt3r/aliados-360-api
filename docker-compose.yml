@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: aliados-postgres
+    restart: always
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - aliados-net
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: aliados-app
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    environment:
+      DATABASE_URL: postgresql://postgres:passw0rd0@postgres:5432/aliados360
+
+    ports:
+      - "3000:3000"
+
+    networks:
+      - aliados-net
+
+volumes:
+  postgres_data:
+
+networks:
+  aliados-net:

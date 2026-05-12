@@ -13,7 +13,7 @@ async function runSeeds(): Promise<void> {
     await productsSeed();
     await contactsSeed();
     await usersSeed();
-    console.log("All seeds executed successfully");
+    console.log("All seeds executed successfully!!");
   } catch (error) {
     console.error("Seed error:", error);
     process.exit(1);

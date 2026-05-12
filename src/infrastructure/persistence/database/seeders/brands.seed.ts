@@ -1,6 +1,6 @@
 import { pool } from "../postgres";
 
-async function seed() {
+export async function brandsSeed(): Promise<void> {
   await pool.query(`
     INSERT INTO brands (id, name, partner_id, active)
     VALUES
@@ -22,7 +22,5 @@ async function seed() {
       ('55555555-5555-5555-5555-555555555558', 'Stratocaster', '55555555-5555-5555-5555-555555555555', true),
   `);
 
-  console.log("Brand seed executed");
+  console.log("Brands seed executed");
 }
-
-seed();

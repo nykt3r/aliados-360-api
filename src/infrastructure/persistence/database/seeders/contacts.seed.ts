@@ -1,6 +1,6 @@
 import { pool } from "../postgres";
 
-async function seed() {
+export async function contactsSeed(): Promise<void> {
   await pool.query(`
     INSERT INTO contacts (name, email, role, partner_id)
     VALUES
@@ -12,7 +12,5 @@ async function seed() {
       ('Alex Rosas', 'child@mine.com', 'CMO', '55555555-5555-5555-5555-555555555555')
   `);
 
-  console.log("Contact seed executed");
+  console.log("Contacts seed executed");
 }
-
-seed();

@@ -10,8 +10,8 @@
     "migrate:create": "node-pg-migrate create --migrations-dir src/infrastructure/persistence/database/migrations",
     "migrate:up": "tsx ./node_modules/node-pg-migrate/bin/node-pg-migrate up --migrations-dir src/infrastructure/persistence/database/migrations",
     "migrate:down": "tsx ./node_modules/node-pg-migrate/bin/node-pg-migrate down --migrations-dir src/infrastructure/persistence/database/migrations",
-    "seed:partners": "npx tsx src/infrastructure/persistence/database/seeders/partners.seed.ts",
-    "db:setup": "npm run migrate:up && npm run seed:partners",
+    "seed": "tsx src/infrastructure/persistence/database/seeders/index.seed.ts",
+    "db:setup": "npm run migrate:up && npm run seed:all",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
@@ -23,6 +23,7 @@
   "dependencies": {
     "awilix": "^13.0.3",
     "awilix-express": "^11.0.1",
+    "bcryptjs": "^3.0.3",
     "chalk": "^5.6.2",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
@@ -31,6 +32,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.5.0",

@@ -11,7 +11,11 @@
     "migrate:up": "tsx ./node_modules/node-pg-migrate/bin/node-pg-migrate up --migrations-dir src/infrastructure/persistence/database/migrations",
     "migrate:down": "tsx ./node_modules/node-pg-migrate/bin/node-pg-migrate down --migrations-dir src/infrastructure/persistence/database/migrations",
     "seed:partners": "npx tsx src/infrastructure/persistence/database/seeders/partners.seed.ts",
-    "db:setup": "npm run migrate:up && npm run seed:partners",
+    "seed:brands": "npx tsx src/infrastructure/persistence/database/seeders/brands.seed.ts",
+    "seed:products": "npx tsx src/infrastructure/persistence/database/seeders/products.seed.ts",
+    "seed:contacts": "npx tsx src/infrastructure/persistence/database/seeders/contacts.seed.ts",
+    "seed:users": "npx tsx src/infrastructure/persistence/database/seeders/users.seed.ts",
+    "db:setup": "npm run migrate:up && npm run seed:partners && npm run seed:brands && npm run seed:products && npm run seed:contacts && npm run seed:users",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"

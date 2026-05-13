@@ -1,13 +1,13 @@
 import { BadRequestError } from "../../shared/errors/app.error";
 import { UniqueId } from "../valueObjects/uniqueId.vo";
 
-export class Partner { // Readonly props
+export class Partner {
   private id: UniqueId;
   private name: string;
   private active: boolean;
 
   constructor(id: UniqueId, name: string, active: boolean = true) {
-    if (!name || name.trim().length === 0) { // Encapsulate validation
+    if (!name || name.trim().length === 0) {
       throw new BadRequestError("Partner name is required");
     }
 

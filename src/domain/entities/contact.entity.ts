@@ -1,9 +1,9 @@
 import { UniqueId } from "../valueObjects/uniqueId.vo";
 import { Email } from "../valueObjects/email.vo";
-import { BadRequestError } from "../../shared/errors/app.error"; // Review and refactor errors by layer
+import { BadRequestError } from "../../shared/errors/app.error";
 
 export class Contact {
-  private id: UniqueId; // Readonly props
+  private id: UniqueId;
   private name: string;
   private email: Email;
   private role: string;
@@ -16,7 +16,7 @@ export class Contact {
     role: string,
     partnerId: UniqueId,
   ) {
-    if (!name || name.trim().length === 0) { // Encapsulate validation
+    if (!name || name.trim().length === 0) {
       throw new BadRequestError("Contact name is required");
     }
 

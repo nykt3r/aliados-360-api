@@ -1,11 +1,13 @@
 export interface CreateProductRequestDTO {
-  name: string
-  brandId: string
+  id?: string;
+  name: string;
+  brandId: string;
+  active?: boolean;
 }
 
 export interface CreateProductResponseDTO {
-  id: string
-  name: string
-  brandId: string
-  active: boolean
+  id: string;
+  name: string;
+  brandId: string;
+  active: boolean;
 }

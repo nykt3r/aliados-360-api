@@ -1,5 +1,5 @@
-import { UpdateProductStatusRequestDTO, UpdateProductStatusResponseDTO } from "../../../../application/dto/products/updateProductStatus.dto";
+// import { UpdateProductStatusRequestDTO, UpdateProductStatusResponseDTO } from "../../../../application/dto/products/updateProductStatus.dto";
 
-export interface IUpdateProductStatusUseCase {
-  execute(req: UpdateProductStatusRequestDTO): Promise<UpdateProductStatusResponseDTO>
-}
+// export interface IUpdateProductStatusUseCase {
+//   execute(req: UpdateProductStatusRequestDTO): Promise<UpdateProductStatusResponseDTO>
+// }

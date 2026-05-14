@@ -1,5 +1,5 @@
-import { GetBrandsByPartnerResponseDTO } from "../../../../application/dto/brands/getBrandsByPartner.dto";
+import { GetBrandsByPartnerRequestDTO, GetBrandsByPartnerResponseDTO } from "../../../../application/dto/brands/getBrandsByPartner.dto";
 
 export interface IGetBrandsByPartnerUseCase {
-  execute(partnerId: string): Promise<GetBrandsByPartnerResponseDTO[]>
+  execute(req: GetBrandsByPartnerRequestDTO): Promise<GetBrandsByPartnerResponseDTO[]>
 }

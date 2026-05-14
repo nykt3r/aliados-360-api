@@ -1,5 +1,6 @@
 import { ICreateBrandUseCase } from "../../../domain/interfaces/useCases/brands/createBrand.usecase.interface";
 import { IBrandRepository } from "../../../domain/interfaces/repositories/brand.repository.interface";
+import { IPartnerRepository } from "../../../domain/interfaces/repositories/partner.repository.interface";
 import {
   CreateBrandRequestDTO,
   CreateBrandResponseDTO,
@@ -11,7 +12,7 @@ import { AppError, BadRequestError } from "../../../shared/errors/app.error";
 export class CreateBrandUseCase implements ICreateBrandUseCase {
   constructor(
     private readonly brandRepository: IBrandRepository,
-    private readonly partnerRepository: IBrandRepository,
+    private readonly partnerRepository: IPartnerRepository,
   ) {}
 
   async execute(req: CreateBrandRequestDTO): Promise<CreateBrandResponseDTO> {
@@ -26,7 +27,8 @@ export class CreateBrandUseCase implements ICreateBrandUseCase {
     const duplicateBrand = partnerBrands.find(
       (brand) => brand.getName().toLowerCase() === req.name.toLowerCase(),
     );
-    if (duplicateBrand) throw new BadRequestError("Brand name already exists for this partner");
+    if (duplicateBrand)
+      throw new BadRequestError("Brand name already exists for this partner");
 
     const newUniqueId = new UniqueId(req.id);
     const partnerId = new UniqueId(req.partnerId);

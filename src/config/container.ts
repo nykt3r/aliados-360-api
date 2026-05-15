@@ -1,9 +1,19 @@
 import { createContainer, asClass, InjectionMode } from "awilix";
 
+import { PostgreUserRepository } from "../infrastructure/persistence/repositories/postgreRepository/user.repository";
 import { PostgrePartnerRepository } from "../infrastructure/persistence/repositories/postgreRepository/partner.repository";
 import { PostgreBrandRepository } from "../infrastructure/persistence/repositories/postgreRepository/brand.repository";
 import { PostgreProductRepository } from "../infrastructure/persistence/repositories/postgreRepository/product.repository";
 import { PostgreContactRepository } from "../infrastructure/persistence/repositories/postgreRepository/contact.repository";
+
+import { HealthService } from "../infrastructure/services/health.service";
+import { JwtAuthService } from "../infrastructure/services/auth.service";
+
+import { GetAllUsersUseCase } from "../application/useCases/users/getAllUsers.usecase";
+import { GetUserByIdUseCase } from "../application/useCases/users/getUserById.usecase";
+import { GetUserByEmailUseCase } from "../application/useCases/users/getUserByEmail.usecase";
+import { RegisterUserUseCase } from "../application/useCases/users/registerUser.usecase";
+import { LoginUserUseCase } from "../application/useCases/users/loginUser.usecase";
 
 import { GetAllPartnersUseCase } from "../application/useCases/partners/getAllPartners.usecase";
 import { GetPartnerByIdUseCase } from "../application/useCases/partners/getPartnerById.usecase";
@@ -21,9 +31,8 @@ import { CreateProductUseCase } from "../application/useCases/products/createPro
 import { GetContactsByPartnerUseCase } from "../application/useCases/contacts/getContactsByPartner.usecase";
 import { CreateContactUseCase } from "../application/useCases/contacts/createContact.usecase";
 
-import { HealthService } from "../infrastructure/services/health.service";
-
 import { HealthController } from "../infrastructure/api/controllers/health.controller";
+import { UserController } from "../infrastructure/api/controllers/v1/user.controller";
 import { PartnerController } from "../infrastructure/api/controllers/v1/partner.controller";
 import { BrandController } from "../infrastructure/api/controllers/v1/brand.controller";
 import { ProductController } from "../infrastructure/api/controllers/v1/product.controller";
@@ -39,6 +48,22 @@ container.register({
   healthService: asClass(HealthService).singleton(),
   // Controller
   healthController: asClass(HealthController).scoped(),
+});
+
+// User
+container.register({
+  // Repository
+  userRepository: asClass(PostgreUserRepository).singleton(),
+  // Service
+  authService: asClass(JwtAuthService).singleton(),
+  // Use cases
+  getAllUsersUseCase: asClass(GetAllUsersUseCase).scoped(),
+  getUserByIdUseCase: asClass(GetUserByIdUseCase).scoped(),
+  getUserByEmailUseCase: asClass(GetUserByEmailUseCase).scoped(),
+  registerUserUseCase: asClass(RegisterUserUseCase).scoped(),
+  loginUserUseCase: asClass(LoginUserUseCase).scoped(),
+  // Controller
+  userController: asClass(UserController).scoped(),
 });
 
 // Partner

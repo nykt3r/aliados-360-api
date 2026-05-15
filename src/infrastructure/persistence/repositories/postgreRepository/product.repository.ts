@@ -21,7 +21,12 @@ export class PostgreProductRepository implements IProductRepository {
 
   async findByBrandId(brandId: string): Promise<Product[]> {
     const result = await pool.query<ProductPrimitives>(
-      `SELECT * FROM products
+      `SELECT
+        id,
+        name,
+        brand_id AS "brandId",
+        active
+        FROM products
         WHERE brand_id = $1`,
       [brandId],
     );

@@ -21,7 +21,12 @@ export class PostgreBrandRepository implements IBrandRepository {
 
   async findByPartnerId(partnerId: string): Promise<Brand[]> {
     const result = await pool.query<BrandPrimitives>(
-      `SELECT * FROM brands
+      `SELECT
+        id,
+        name,
+        partner_id AS "partnerId",
+        active
+        FROM brands
         WHERE partner_id = $1`,
       [partnerId],
     );

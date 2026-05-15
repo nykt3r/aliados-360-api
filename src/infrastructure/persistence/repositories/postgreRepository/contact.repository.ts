@@ -21,7 +21,13 @@ export class PostgreContactRepository implements IContactRepository {
 
   async findByPartnerId(partnerId: string): Promise<Contact[]> {
     const result = await pool.query<ContactPrimitives>(
-      `SELECT * FROM contacts
+      `SELECT 
+        id, 
+        name, 
+        email, 
+        role,
+        partner_id AS "partnerId"
+        FROM contacts
         WHERE partner_id = $1`,
       [partnerId],
     );

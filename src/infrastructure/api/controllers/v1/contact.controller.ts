@@ -25,10 +25,21 @@ export class ContactController {
   };
 
   createContact = async (
-    req: Request<{}, CreateContactResponseDTO, CreateContactRequestDTO>,
+    req: Request<
+      { partnerId: string },
+      CreateContactResponseDTO,
+      CreateContactRequestDTO
+    >,
     res: Response<CreateContactResponseDTO>,
   ): Promise<void> => {
-    const result = await this.createContactUseCase.execute(req.body);
+    const request: CreateContactRequestDTO = {
+      id: req.body.id,
+      name: req.body.name,
+      email: req.body.email,
+      role: req.body.role,
+      partnerId: req.params.partnerId,
+    };
+    const result = await this.createContactUseCase.execute(request);
     res.status(201).json(result);
   };
 }

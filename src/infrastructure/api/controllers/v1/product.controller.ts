@@ -39,10 +39,20 @@ export class ProductController {
   };
 
   createProduct = async (
-    req: Request<{}, CreateProductResponseDTO, CreateProductRequestDTO>,
+    req: Request<
+      { brandId: string },
+      CreateProductResponseDTO,
+      CreateProductRequestDTO
+    >,
     res: Response<CreateProductResponseDTO>,
   ): Promise<void> => {
-    const result = await this.createProductUseCase.execute(req.body);
+    const request: CreateProductRequestDTO = {
+      id: req.body.id,
+      name: req.body.name,
+      brandId: req.params.brandId,
+      active: req.body.active,
+    };
+    const result = await this.createProductUseCase.execute(request);
     res.status(201).json(result);
   };
 }

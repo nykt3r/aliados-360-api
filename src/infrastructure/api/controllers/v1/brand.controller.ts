@@ -39,10 +39,20 @@ export class BrandController {
   };
 
   createBrand = async (
-    req: Request<{}, CreateBrandResponseDTO, CreateBrandRequestDTO>,
+    req: Request<
+      { partnerId: string },
+      CreateBrandResponseDTO,
+      CreateBrandRequestDTO
+    >,
     res: Response<CreateBrandResponseDTO>,
   ): Promise<void> => {
-    const result = await this.createBrandUseCase.execute(req.body);
+    const request: CreateBrandRequestDTO = {
+      id: req.body.id,
+      name: req.body.name,
+      partnerId: req.params.partnerId,
+      active: req.body.active,
+    };
+    const result = await this.createBrandUseCase.execute(request);
     res.status(201).json(result);
   };
 }

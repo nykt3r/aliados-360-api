@@ -1,5 +1,5 @@
-import { GetProductsByBrandResponseDTO } from "../../../../application/dto/products/getProductsByBrand";
+import { GetProductsByBrandRequestDTO, GetProductsByBrandResponseDTO } from "../../../../application/dto/products/getProductsByBrand.dto";
 
 export interface IGetProductsByBrandUseCase {
-  execute(brandId: string): Promise<GetProductsByBrandResponseDTO[]>
+  execute(req: GetProductsByBrandRequestDTO): Promise<GetProductsByBrandResponseDTO[]>
 }

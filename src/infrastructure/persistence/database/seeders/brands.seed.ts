@@ -20,6 +20,7 @@ export async function brandsSeed(): Promise<void> {
       ('44444444-4444-4444-4444-444444444447', 'iPad','44444444-4444-4444-4444-444444444444', true),
       ('55555555-5555-5555-5555-555555555559', 'Telecaster', '55555555-5555-5555-5555-555555555555', true),
       ('55555555-5555-5555-5555-555555555558', 'Stratocaster', '55555555-5555-5555-5555-555555555555', true)
+      ON CONFLICT (id) DO NOTHING;
   `);
 
   console.log("Brands seed executed");

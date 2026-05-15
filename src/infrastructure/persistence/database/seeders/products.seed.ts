@@ -27,6 +27,7 @@ export async function productsSeed(): Promise<void> {
       ('MacBook Air M3', '44444444-4444-4444-4444-444444444448', true),
       ('MacBook Pro M5 Max', '44444444-4444-4444-4444-444444444448', true),
       ('MacBook Pro M4', '44444444-4444-4444-4444-444444444448', true)
+      ON CONFLICT (name) DO NOTHING;
   `);
 
   console.log("Products seed executed");

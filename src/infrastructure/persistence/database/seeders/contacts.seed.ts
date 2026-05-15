@@ -10,6 +10,7 @@ export async function contactsSeed(): Promise<void> {
       ('Broco Lee', 'wakata@dragon.com', 'COO', '33333333-3333-3333-3333-333333333333'),
       ('Al Pacino', 'scar@face.com', 'Sales Manager', '44444444-4444-4444-4444-444444444444'),
       ('Alex Rosas', 'child@mine.com', 'CMO', '55555555-5555-5555-5555-555555555555')
+      ON CONFLICT (email) DO NOTHING;
   `);
 
   console.log("Contacts seed executed");

@@ -9,6 +9,7 @@ export async function partnersSeed(): Promise<void> {
       ('33333333-3333-3333-3333-333333333333', 'Anthropic', true),
       ('44444444-4444-4444-4444-444444444444', 'Apple', true),
       ('55555555-5555-5555-5555-555555555555', 'Fender', true)
+      ON CONFLICT (id) DO NOTHING;
   `);
 
   console.log("Partners seed executed");

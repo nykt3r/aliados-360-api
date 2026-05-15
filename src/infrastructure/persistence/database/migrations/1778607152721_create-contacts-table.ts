@@ -50,6 +50,9 @@ export const up = (pgm: MigrationBuilder): void => {
 
   pgm.createIndex("contacts", "partner_id");
   pgm.createIndex("contacts", "email");
+  pgm.addConstraint("contacts", "contacts_email_unique", {
+    unique: ["email"],
+  });
 };
 
 export const down = (pgm: MigrationBuilder): void => {

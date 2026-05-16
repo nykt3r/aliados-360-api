@@ -3,9 +3,7 @@ import { hashPassword } from "../../../../util/password.util";
 import { pool } from "../postgres";
 
 export async function usersSeed(): Promise<void> {
-  const hashedPassword = await hashPassword(
-    "securepassword"
-  );
+  const hashedPassword = await hashPassword("securepassword");
 
   await pool.query(
     `
@@ -13,20 +11,29 @@ export async function usersSeed(): Promise<void> {
         id,
         name,
         email,
-        password,
+        password_hash,
         role,
         active
       )
-      VALUES ($1, $2, $3, $4, $5, $6)
+      VALUES 
+        ($1, $2, $3, $4, $5, $6),
+        ($7, $8, $9, $10, $11, $12)
     `,
     [
       crypto.randomUUID(),
       "John Doe",
-      "john@example.com",
+      "admin@example.com",
       hashedPassword,
       "ADMIN",
       true,
-    ]
+
+      crypto.randomUUID(),
+      "Jane Doe",
+      "viewer@example.com",
+      hashedPassword,
+      "VIEWER",
+      true,
+    ],
   );
 
   console.log("Users seed executed");

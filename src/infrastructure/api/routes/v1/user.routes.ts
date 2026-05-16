@@ -10,13 +10,13 @@ router.get("/", async (req, res) => {
   return controller.getAllUsers(req, res);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("id/:id", async (req, res) => {
   //userId
   const controller = container.resolve<UserController>("userController");
   return controller.getUserById(req, res);
 });
 
-router.get("/:email", async (req, res) => {
+router.get("email/:email", async (req, res) => {
   //userEmail
   const controller = container.resolve<UserController>("userController");
   return controller.getUserByEmail(req, res);

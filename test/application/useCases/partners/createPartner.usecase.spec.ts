@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { CreatePartnerUseCase } from "../../../src/application/useCases/partners/createPartner.usecase";
-import { IPartnerRepository } from "../../../src/domain/interfaces/repositories/partner.repository.interface";
-import { CreatePartnerRequestDTO, CreatePartnerResponseDTO } from "../../../src/application/dto/partners/createPartner.dto";
+import { CreatePartnerUseCase } from "../../../../src/application/useCases/partners/createPartner.usecase";
+import { IPartnerRepository } from "../../../../src/domain/interfaces/repositories/partner.repository.interface";
+import { CreatePartnerRequestDTO, CreatePartnerResponseDTO } from "../../../../src/application/dto/partners/createPartner.dto";
 
 describe("CreatePartner Use Case", () => {
 

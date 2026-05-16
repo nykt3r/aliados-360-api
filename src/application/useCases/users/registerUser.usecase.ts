@@ -9,6 +9,7 @@ import { UniqueId } from "../../../domain/valueObjects/uniqueId.vo";
 import { Email } from "../../../domain/valueObjects/email.vo";
 import { hashPassword } from "../../../util/password.util";
 import { AppError, BadRequestError } from "../../../shared/errors/app.error";
+import { UserRole } from "../../../domain/enums/userRole.enum";
 
 export class RegisterUserUseCase implements IRegisterUserUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
@@ -24,15 +25,12 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
 
     const passwordHash = await hashPassword(req.password);
 
-    const newUniqueId = new UniqueId(req.id);
-    const userEmail = new Email(req.email);
     const newUser = new User(
-      newUniqueId,
+      new UniqueId(),
       req.name,
-      userEmail,
+      new Email(req.email),
       passwordHash,
-      req.role,
-      req.active,
+      req.role as UserRole,
     );
 
     const savedUser = await this.userRepository.save(newUser);

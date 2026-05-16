@@ -1,10 +1,8 @@
 export interface RegisterUserRequestDTO {
-  id?: string;
   name: string;
   email: string;
   password: string;
   role?: string;
-  active?: boolean;
 }
 
 export interface RegisterUserResponseDTO {

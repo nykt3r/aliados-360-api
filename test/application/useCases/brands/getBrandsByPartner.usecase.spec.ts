@@ -6,7 +6,6 @@ import { Partner } from '../../../../src/domain/entities/partner.entity';
 import { Brand } from '../../../../src/domain/entities/brand.entity';
 import { UniqueId } from '../../../../src/domain/valueObjects/uniqueId.vo';
 import { GetBrandsByPartnerRequestDTO, GetBrandsByPartnerResponseDTO } from '../../../../src/application/dto/brands/getBrandsByPartner.dto';
-import { GetBrandByIdRequestDTO, GetBrandByIdResponseDTO } from '../../../../src/application/dto/brands/getBrandById.dto';
 
 describe('GetBrandsByPartner Use Case', () => {
 
@@ -112,5 +111,5 @@ describe('GetBrandsByPartner Use Case', () => {
         expect(partnerRepository.findById).toHaveBeenCalledTimes(1);
         expect(brandRepository.findByPartnerId).toHaveBeenCalledTimes(1);
     });
-    
+
 });

@@ -26,27 +26,27 @@ describe('CreateContact Use Case', () => {
 
     //success case of creating a contact
     it('should create and save a contact', async () => {
-        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "partner-id" });
+        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         contactRepository.findByPartnerId = vi.fn().mockResolvedValue([]);
         contactRepository.save = vi.fn().mockImplementation(async (contact) => contact);
 
         const request: CreateContactRequestDTO = { 
-            id: "contact-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "John Perez",
             email: "john.perez@test.com",
             role: "Manager",
-            partnerId: "partner-id"
+            partnerId: "550e8400-e29b-41d4-a716-446655440001"
         };
 
         const result: CreateContactResponseDTO = await useCase.execute(request);
        
         expect(result).toBeDefined();
         expect(result).toEqual({
-            id: "contact-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "John Perez",
             email: "john.perez@test.com",
             role: "Manager",
-            partnerId: "partner-id"
+            partnerId: "550e8400-e29b-41d4-a716-446655440001"
         });
         expect(partnerRepository.findById).toHaveBeenCalledTimes(1)
         expect(contactRepository.findByPartnerId).toHaveBeenCalledTimes(1);
@@ -66,11 +66,11 @@ describe('CreateContact Use Case', () => {
         partnerRepository.findById = vi.fn().mockResolvedValue(null);
 
         const request: CreateContactRequestDTO = { 
-            id: "contact-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "John Perez",
             email: "john.perez@test.com",
             role: "Manager",
-            partnerId: "partner-id"
+            partnerId: "550e8400-e29b-41d4-a716-446655440001"
         };
 
         await expect(useCase.execute(request)).rejects.toThrow('Partner not found');
@@ -80,17 +80,17 @@ describe('CreateContact Use Case', () => {
 
     //Error case of creating a contact when a contact with the same email already exists for the partner
     it('should throw an error if a contact with the same email already exists for the partner', async () => {
-        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "partner-id" });
+        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         contactRepository.findByPartnerId = vi.fn().mockResolvedValue([
             { getEmail: () => "john.perez@test.com" }
         ]);
 
         const request: CreateContactRequestDTO = { 
-            id: "contact-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "John Perez",
             email: "john.perez@test.com",
             role: "Manager",
-            partnerId: "partner-id"
+            partnerId: "550e8400-e29b-41d4-a716-446655440001"
         };
 
         await expect(useCase.execute(request)).rejects.toThrow('Contact e-mail already exists for this partner');
@@ -99,17 +99,17 @@ describe('CreateContact Use Case', () => {
 
     //Error case of creating a contact when a contact email already exists ignoring case sensitivity for the partner
     it('should throw an error if a contact with the same email already exists for the partner ignoring case sensitivity', async () => {
-        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "partner-id" });
+        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         contactRepository.findByPartnerId = vi.fn().mockResolvedValue([
             { getEmail: () => "JOHN.PEREZ@TEST.COM" }
         ]);
 
         const request: CreateContactRequestDTO = { 
-            id: "contact-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "John Perez",
             email: "john.perez@test.com",
             role: "Manager",
-            partnerId: "partner-id"
+            partnerId: "550e8400-e29b-41d4-a716-446655440001"
         };
 
         await expect(useCase.execute(request)).rejects.toThrow('Contact e-mail already exists for this partner');
@@ -118,16 +118,16 @@ describe('CreateContact Use Case', () => {
 
     //Error case of creating a contact when saving fails
     it('should throw an error if saving fails', async () => {
-        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "partner-id" });
+        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         contactRepository.findByPartnerId = vi.fn().mockResolvedValue([]);
         contactRepository.save = vi.fn().mockResolvedValue(null);
 
         const request: CreateContactRequestDTO = { 
-            id: "contact-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "John Perez",
             email: "john.perez@test.com",
             role: "Manager",
-            partnerId: "partner-id"
+            partnerId: "550e8400-e29b-41d4-a716-446655440001"
         };
 
         await expect(useCase.execute(request)).rejects.toThrow('Error saving Contact');

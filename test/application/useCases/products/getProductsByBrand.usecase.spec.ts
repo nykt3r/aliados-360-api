@@ -28,35 +28,35 @@ describe('GetProductsByBrandUseCase', () => {
 
     //Success case of getting products by brand id
     it('should return products by brand id', async () => {
-        const brand = new Brand(new UniqueId("brand-id"), "Azure", new UniqueId("partner-id"), true);
-        const product1 = new Product(new UniqueId("product-id-1"), "Azure VM", new UniqueId("brand-id"), true);
-        const product2 = new Product(new UniqueId("product-id-2"), "Azure Storage", new UniqueId("brand-id"), true);
+        const brand = new Brand(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Azure", new UniqueId("550e8400-e29b-41d4-a716-446655440002"), true);
+        const product1 = new Product(new UniqueId("550e8400-e29b-41d4-a716-446655440003"), "Azure VM", new UniqueId("550e8400-e29b-41d4-a716-446655440001"), true);
+        const product2 = new Product(new UniqueId("550e8400-e29b-41d4-a716-446655440004"), "Azure Storage", new UniqueId("550e8400-e29b-41d4-a716-446655440001"), true);
 
         brandRepository.findById = vi.fn().mockResolvedValue(brand);
         productRepository.findByBrandId = vi.fn().mockResolvedValue([product1, product2]);
 
-        const request: GetProductsByBrandRequestDTO = { brandId: "brand-id" };
+        const request: GetProductsByBrandRequestDTO = { brandId: "550e8400-e29b-41d4-a716-446655440001" };
         const result: GetProductsByBrandResponseDTO[] = await useCase.execute(request);
 
         expect(result).toBeDefined();
         expect(result).toEqual([
             {
-                id: "product-id-1",
+                id: "550e8400-e29b-41d4-a716-446655440003",
                 name: "Azure VM",
-                brandId: "brand-id",
+                brandId: "550e8400-e29b-41d4-a716-446655440001",
                 active: true
             },
             {
-                id: "product-id-2",
+                id: "550e8400-e29b-41d4-a716-446655440004",
                 name: "Azure Storage",
-                brandId: "brand-id",
+                brandId: "550e8400-e29b-41d4-a716-446655440001",
                 active: true
             }
         ]);
         expect(brandRepository.findById).toHaveBeenCalledTimes(1);
-        expect(brandRepository.findById).toHaveBeenCalledWith("brand-id");
+        expect(brandRepository.findById).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
         expect(productRepository.findByBrandId).toHaveBeenCalledTimes(1);
-        expect(productRepository.findByBrandId).toHaveBeenCalledWith("brand-id");
+        expect(productRepository.findByBrandId).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
     });
 
     //Case of getting products by brand id when brand does not exist
@@ -78,29 +78,29 @@ describe('GetProductsByBrandUseCase', () => {
 
     //Case of getting products by brand id when brand has no products
     it('should return empty array when brand has no products', async () => {
-        const brand = new Brand(new UniqueId("brand-id"), "Azure", new UniqueId("partner-id"), true);
+        const brand = new Brand(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Azure", new UniqueId("550e8400-e29b-41d4-a716-446655440002"), true);
         brandRepository.findById = vi.fn().mockResolvedValue(brand);
         productRepository.findByBrandId = vi.fn().mockResolvedValue([]);
 
-        const request: GetProductsByBrandRequestDTO = { brandId: "brand-id" };
+        const request: GetProductsByBrandRequestDTO = { brandId: "550e8400-e29b-41d4-a716-446655440001" };
         const result: GetProductsByBrandResponseDTO[] = await useCase.execute(request);
 
         expect(result).toBeDefined();
         expect(result).toEqual([]);
         expect(brandRepository.findById).toHaveBeenCalledTimes(1);
-        expect(brandRepository.findById).toHaveBeenCalledWith("brand-id");
+        expect(brandRepository.findById).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
         expect(productRepository.findByBrandId).toHaveBeenCalledTimes(1);
-        expect(productRepository.findByBrandId).toHaveBeenCalledWith("brand-id");
+        expect(productRepository.findByBrandId).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
     });
 
     //Error case creating a Product when getting products fails due to an unexpected error
     it("should throw an error when getting products fails", async () => {
-        const brand = new Brand(new UniqueId("brand-id"), "Azure VM", new UniqueId("partner-id"), true);
+        const brand = new Brand(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Azure VM", new UniqueId("550e8400-e29b-41d4-a716-446655440002"), true);
         brandRepository.findById = vi.fn().mockResolvedValue(brand);
         productRepository.findByBrandId = vi.fn().mockResolvedValue(null);
 
         const request: GetProductsByBrandRequestDTO = {
-            brandId: "brand-id",
+            brandId: "550e8400-e29b-41d4-a716-446655440001",
         };
 
         const act = () => useCase.execute(request);

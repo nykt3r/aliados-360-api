@@ -21,10 +21,10 @@ describe('GetProductById Use Case', () => {
 
     //Success case of getting a product by id
     it('should return a product by id', async () => {
-        const product = new Product(new UniqueId("product-id"), "Laptop", new UniqueId("brand-id"), true);
+        const product = new Product(new UniqueId("550e8400-e29b-41d4-a716-446655440002"), "Laptop", new UniqueId("550e8400-e29b-41d4-a716-446655440001"), true);
         productRepository.findById = vi.fn().mockResolvedValue(product);
 
-        const request: GetProductByIdRequestDTO = { id: "product-id" };
+        const request: GetProductByIdRequestDTO = { id: "550e8400-e29b-41d4-a716-446655440002" };
         const result: GetProductByIdResponseDTO = await useCase.execute(request);
 
         expect(result).toBeDefined();
@@ -35,7 +35,7 @@ describe('GetProductById Use Case', () => {
             active: product.isActive()
         });
         expect(productRepository.findById).toHaveBeenCalledTimes(1);
-        expect(productRepository.findById).toHaveBeenCalledWith("product-id");
+        expect(productRepository.findById).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440002");
     });
 
     //Error case of getting a product by id that does not exist

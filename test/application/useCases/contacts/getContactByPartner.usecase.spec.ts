@@ -30,37 +30,37 @@ describe('GetContactsByPartner Use Case', () => {
 
     //Success case of getting contacts by partner id
     it('should return contacts by partner id', async () => {
-        const partner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
-        const contacts = [new Contact(new UniqueId("contact-1"), "Juan Perez", new Email("juan@test.com"), "Manager", new UniqueId("partner-id")),
-        new Contact(new UniqueId("contact-2"), "Maria Lopez", new Email("maria@test.com"), "Supervisor", new UniqueId("partner-id"))];
+        const partner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Ubuntu", true);
+        const contacts = [new Contact(new UniqueId("550e8400-e29b-41d4-a716-446655440002"), "Juan Perez", new Email("juan@test.com"), "Manager", new UniqueId("550e8400-e29b-41d4-a716-446655440001")),
+        new Contact(new UniqueId("550e8400-e29b-41d4-a716-446655440003"), "Maria Lopez", new Email("maria@test.com"), "Supervisor", new UniqueId("550e8400-e29b-41d4-a716-446655440001"))];
 
         partnerRepository.findById = vi.fn().mockResolvedValue(partner);
         contactRepository.findByPartnerId = vi.fn().mockResolvedValue(contacts);
 
-        const request: GetContactsByPartnerRequestDTO = { partnerId: "partner-id" };
+        const request: GetContactsByPartnerRequestDTO = { partnerId: "550e8400-e29b-41d4-a716-446655440001" };
         const result: GetContactsByPartnerResponseDTO[] = await useCase.execute(request);
        
         expect(result).toBeDefined();
         expect(result).toEqual([
             {
-                id: "contact-1",
+                id: "550e8400-e29b-41d4-a716-446655440002",
                 name: "Juan Perez",
                 email: "juan@test.com",
                 role: "Manager",
-                partnerId: "partner-id"
+                partnerId: "550e8400-e29b-41d4-a716-446655440001"
             },
             {
-                id: "contact-2",
+                id: "550e8400-e29b-41d4-a716-446655440003",
                 name: "Maria Lopez",
                 email: "maria@test.com",
                 role: "Supervisor",
-                partnerId: "partner-id"
+                partnerId: "550e8400-e29b-41d4-a716-446655440001"
             }
         ]);
         expect(partnerRepository.findById).toHaveBeenCalledTimes(1);
-        expect(partnerRepository.findById).toHaveBeenCalledWith("partner-id");
+        expect(partnerRepository.findById).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
         expect(contactRepository.findByPartnerId).toHaveBeenCalledTimes(1);
-        expect(contactRepository.findByPartnerId).toHaveBeenCalledWith("partner-id");
+        expect(contactRepository.findByPartnerId).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
     });
 
     //Error case of getting contacts by partner id when partner does not exist
@@ -71,7 +71,7 @@ describe('GetContactsByPartner Use Case', () => {
 
         const act = () => useCase.execute(request);
 
-        await expect(act).rejects.toThrowError("Partner not found");
+        await expect(act).rejects.toThrow("Partner not found");
         expect(partnerRepository.findById).toHaveBeenCalledTimes(1);
         expect(partnerRepository.findById).toHaveBeenCalledWith("missing-id");
         expect(contactRepository.findByPartnerId).toHaveBeenCalledTimes(0);
@@ -80,32 +80,32 @@ describe('GetContactsByPartner Use Case', () => {
 
     //Error case of getting contacts by partner id that has no contacts
     it('should return an empty array if partner has no contacts', async () => {
-        const partner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
+        const partner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Ubuntu", true);
         partnerRepository.findById = vi.fn().mockResolvedValue(partner);
         contactRepository.findByPartnerId = vi.fn().mockResolvedValue([]);
 
-        const request: GetContactsByPartnerRequestDTO = { partnerId: "partner-id" };
+        const request: GetContactsByPartnerRequestDTO = { partnerId: "550e8400-e29b-41d4-a716-446655440001" };
         const result: GetContactsByPartnerResponseDTO[] = await useCase.execute(request);
 
         expect(result).toBeDefined();
         expect(result).toEqual([]);
         expect(partnerRepository.findById).toHaveBeenCalledTimes(1);
-        expect(partnerRepository.findById).toHaveBeenCalledWith("partner-id");
+        expect(partnerRepository.findById).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
         expect(contactRepository.findByPartnerId).toHaveBeenCalledTimes(1);
-        expect(contactRepository.findByPartnerId).toHaveBeenCalledWith("partner-id");
+        expect(contactRepository.findByPartnerId).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
     });
 
     //Error case of getting contacts by partner id when an unexpected error occurs
     it('should throw an error when getting contacts fails', async () => {
-        const partner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
+        const partner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Ubuntu", true);
         partnerRepository.findById = vi.fn().mockResolvedValue(partner);
         contactRepository.findByPartnerId = vi.fn().mockResolvedValue(null);
 
-        const request: GetContactsByPartnerRequestDTO = { partnerId: "partner-id" };
+        const request: GetContactsByPartnerRequestDTO = { partnerId: "550e8400-e29b-41d4-a716-446655440001" };
 
         const act = () => useCase.execute(request);
 
-        await expect(act).rejects.toThrowError("Error getting Contacts");
+        await expect(act).rejects.toThrow("Error getting Contacts");
         expect(partnerRepository.findById).toHaveBeenCalledTimes(1);
         expect(contactRepository.findByPartnerId).toHaveBeenCalledTimes(1);
     });

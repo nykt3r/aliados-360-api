@@ -27,14 +27,14 @@ describe('CreateBrand Use Case', () => {
 
     //success case of creating a brand
     it('should create and save a brand', async () => {
-        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "partner-id" });
+        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         brandRepository.findByPartnerId = vi.fn().mockResolvedValue([]);
         brandRepository.save = vi.fn().mockImplementation(async (brand) => brand);
 
         const request: CreateBrandRequestDTO = { 
-            id: "brand-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure",
-            partnerId: "partner-id",
+            partnerId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         };
 
@@ -42,9 +42,9 @@ describe('CreateBrand Use Case', () => {
 
         expect(result).toBeDefined();
         expect(result).toEqual({
-            id: "brand-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure",
-            partnerId: "partner-id",
+            partnerId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         });
 
@@ -66,9 +66,9 @@ describe('CreateBrand Use Case', () => {
         partnerRepository.findById = vi.fn().mockResolvedValue(null);
 
         const request: CreateBrandRequestDTO = { 
-            id: "brand-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure",
-            partnerId: "partner-id",
+            partnerId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         };
 
@@ -79,13 +79,13 @@ describe('CreateBrand Use Case', () => {
 
     //Error case of creating a brand when brand with same name already exists for the partner
     it('should throw an error if brand with same name already exists for the partner', async () => {
-        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "partner-id" });
+        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         brandRepository.findByPartnerId = vi.fn().mockResolvedValue([{ getName: () => "Azure" }]);
 
         const request: CreateBrandRequestDTO = { 
-            id: "brand-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure",
-            partnerId: "partner-id",
+            partnerId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         };
 
@@ -95,14 +95,14 @@ describe('CreateBrand Use Case', () => {
 
     //Error case of creating a brand when saving fails
     it('should throw an error if saving fails', async () => {
-        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "partner-id" });
+        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         brandRepository.findByPartnerId = vi.fn().mockResolvedValue([]);
         brandRepository.save = vi.fn().mockResolvedValue(null);
 
         const request: CreateBrandRequestDTO = { 
-            id: "brand-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure",
-            partnerId: "partner-id",
+            partnerId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         };
 
@@ -114,13 +114,13 @@ describe('CreateBrand Use Case', () => {
 
     //Error case of creating a brand when brand name already exists  ignoring case sensitivity for the partner
     it('should throw an error if brand with same name already exists for the partner ignoring case sensitivity', async () => {
-        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "partner-id" });
+        partnerRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         brandRepository.findByPartnerId = vi.fn().mockResolvedValue([{ getName: () => "Azure" }]);
 
         const request: CreateBrandRequestDTO = { 
-            id: "brand-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "azure",
-            partnerId: "partner-id",
+            partnerId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         };
 

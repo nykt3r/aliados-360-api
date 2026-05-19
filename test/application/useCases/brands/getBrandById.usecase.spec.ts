@@ -21,21 +21,21 @@ describe('GetBrandById Use Case', () => {
 
     //Success case of getting a brand by id
     it('should return a brand by id', async () => {
-        const brand = new Brand(new UniqueId("brand-id"), "Azure", new UniqueId("partner-id"), true);
+        const brand = new Brand(new UniqueId("550e8400-e29b-41d4-a716-446655440002"), "Azure", new UniqueId("550e8400-e29b-41d4-a716-446655440001"), true);
         brandRepository.findById = vi.fn().mockResolvedValue(brand);
 
-        const request: GetBrandByIdRequestDTO = { id: "brand-id" };
+        const request: GetBrandByIdRequestDTO = { id: "550e8400-e29b-41d4-a716-446655440002" };
         const result: GetBrandByIdResponseDTO = await useCase.execute(request);
 
         expect(result).toBeDefined();
         expect(result).toEqual({
-            id: "brand-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure",
-            partnerId: "partner-id",
+            partnerId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         });
         expect(brandRepository.findById).toHaveBeenCalledTimes(1);
-        expect(brandRepository.findById).toHaveBeenCalledWith("brand-id");
+        expect(brandRepository.findById).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440002");
     });
 
     //Error case of getting a brand by id that does not exist

@@ -26,14 +26,14 @@ describe('CreateProduct Use Case', () => {
 
     //success case of creating a product
     it('should create and save a product', async () => {
-        brandRepository.findById = vi.fn().mockResolvedValue({ getId: () => "brand-id" });
+        brandRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         productRepository.findByBrandId = vi.fn().mockResolvedValue([]);
         productRepository.save = vi.fn().mockImplementation(async (product) => product);
 
         const request: CreateProductRequestDTO = { 
-            id: "product-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure Virtual Machine",
-            brandId: "brand-id",
+            brandId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         };
 
@@ -41,9 +41,9 @@ describe('CreateProduct Use Case', () => {
 
         expect(result).toBeDefined();
         expect(result).toEqual({
-            id: "product-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure Virtual Machine",
-            brandId: "brand-id",
+            brandId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         });
         expect(brandRepository.findById).toHaveBeenCalledTimes(1)
@@ -64,7 +64,7 @@ describe('CreateProduct Use Case', () => {
         brandRepository.findById = vi.fn().mockResolvedValue(null);
 
         const request: CreateProductRequestDTO = { 
-            id: "product-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure Virtual Machine",
             brandId: "non-existing-brand-id",
             active: true
@@ -77,13 +77,13 @@ describe('CreateProduct Use Case', () => {
 
     //error case of creating a product with same name under the same brand
     it('should throw an error if product already exists for the brand', async () => {
-        brandRepository.findById = vi.fn().mockResolvedValue({ getId: () => "brand-id" });
+        brandRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         productRepository.findByBrandId = vi.fn().mockResolvedValue([{ getName: () => "Azure Virtual Machine" }]);
 
         const request: CreateProductRequestDTO = { 
-            id: "product-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure Virtual Machine",
-            brandId: "brand-id",
+            brandId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         };
 
@@ -93,13 +93,13 @@ describe('CreateProduct Use Case', () => {
 
     //Error case of creating a product when product name already exists ignoring case sensitivity under the same brand
     it('should throw an error if product with same name already exists for the brand ignoring case sensitivity', async () => {
-        brandRepository.findById = vi.fn().mockResolvedValue({ getId: () => "brand-id" });
+        brandRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         productRepository.findByBrandId = vi.fn().mockResolvedValue([{ getName: () => "Azure Virtual Machine" }]);
 
         const request: CreateProductRequestDTO = { 
-            id: "product-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "azure virtual machine",
-            brandId: "brand-id",
+            brandId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         };
 
@@ -109,14 +109,14 @@ describe('CreateProduct Use Case', () => {
 
     //Error case of creating a product when saving fails
     it('should throw an error if saving fails', async () => {
-        brandRepository.findById = vi.fn().mockResolvedValue({ getId: () => "brand-id" });
+        brandRepository.findById = vi.fn().mockResolvedValue({ getId: () => "550e8400-e29b-41d4-a716-446655440001" });
         productRepository.findByBrandId = vi.fn().mockResolvedValue([]);
         productRepository.save = vi.fn().mockResolvedValue(null);
 
         const request: CreateProductRequestDTO = { 
-            id: "product-id",
+            id: "550e8400-e29b-41d4-a716-446655440002",
             name: "Azure Virtual Machine",
-            brandId: "brand-id",
+            brandId: "550e8400-e29b-41d4-a716-446655440001",
             active: true
         };
 

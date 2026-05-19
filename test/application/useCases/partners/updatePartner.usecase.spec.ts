@@ -21,21 +21,21 @@ describe("UpdatePartner Use Case", () => {
     });
 
     it("should update the partner name", async () => {
-        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
+        const existingPartner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Ubuntu", true);
 
         partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
         partnerRepository.update = vi.fn().mockImplementation(async (partner) => partner);
 
-        const request: UpdatePartnerRequestDTO = { id: "partner-id", name: "Canonical" };
+        const request: UpdatePartnerRequestDTO = { id: "550e8400-e29b-41d4-a716-446655440001", name: "Canonical" };
         const result: UpdatePartnerResponseDTO = await useCase.execute(request);
 
         expect(result).toEqual({
-            id: "partner-id",
+            id: "550e8400-e29b-41d4-a716-446655440001",
             name: "Canonical",
             active: true
         });
 
-        expect(partnerRepository.findById).toHaveBeenCalledWith("partner-id");
+        expect(partnerRepository.findById).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
         expect(partnerRepository.update).toHaveBeenCalledTimes(1);
         expect(partnerRepository.update).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -46,37 +46,37 @@ describe("UpdatePartner Use Case", () => {
     });
 
     it("should activate the partner", async () => {
-        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", false);
+        const existingPartner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Ubuntu", false);
 
         partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
         partnerRepository.update = vi.fn().mockImplementation(async (partner) => partner);
 
-        const request: UpdatePartnerRequestDTO = { id: "partner-id", active: true };
+        const request: UpdatePartnerRequestDTO = { id: "550e8400-e29b-41d4-a716-446655440001", active: true };
         const result: UpdatePartnerResponseDTO = await useCase.execute(request);
 
         expect(result.active).toBe(true);
     });     
 
     it("should deactivate the partner", async () => {
-        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
+        const existingPartner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Ubuntu", true);
 
         partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
         partnerRepository.update = vi.fn().mockImplementation(async (partner) => partner);
 
-        const request: UpdatePartnerRequestDTO = { id: "partner-id", active: false };
+        const request: UpdatePartnerRequestDTO = { id: "550e8400-e29b-41d4-a716-446655440001", active: false };
         const result: UpdatePartnerResponseDTO = await useCase.execute(request);
 
         expect(result.active).toBe(false);
     });
 
     it("should update name and active status", async () => {
-        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
+        const existingPartner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Ubuntu", true);
 
         partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
         partnerRepository.update = vi.fn().mockImplementation(async (partner) => partner);
 
         const request: UpdatePartnerRequestDTO = { 
-            id: "partner-id", 
+            id: "550e8400-e29b-41d4-a716-446655440001", 
             name: "Canonical", 
             active: false 
         };
@@ -84,7 +84,7 @@ describe("UpdatePartner Use Case", () => {
         const result: UpdatePartnerResponseDTO = await useCase.execute(request);
 
         expect(result).toEqual({
-            id: "partner-id",
+            id: "550e8400-e29b-41d4-a716-446655440001",
             name: "Canonical",
             active: false
         });
@@ -101,12 +101,12 @@ describe("UpdatePartner Use Case", () => {
     });
 
     it("should throw an error if update fails", async () => {
-        const existingPartner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
+        const existingPartner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Ubuntu", true);
 
         partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
         partnerRepository.update = vi.fn().mockResolvedValue(null);
 
-        const request: UpdatePartnerRequestDTO = { id: "partner-id", name: "Canonical" };
+        const request: UpdatePartnerRequestDTO = { id: "550e8400-e29b-41d4-a716-446655440001", name: "Canonical" };
         await expect(useCase.execute(request)).rejects.toThrow("Error updating Partner");
     });
 });

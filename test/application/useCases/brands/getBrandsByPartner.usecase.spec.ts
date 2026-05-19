@@ -31,35 +31,35 @@ describe('GetBrandsByPartner Use Case', () => {
 
     //Success case of getting brands by partner id
     it('should return brands by partner id', async () => {
-        const partner = new Partner(new UniqueId("partner-id"), "Microsoft", true);
-        const brand1 = new Brand(new UniqueId("brand-id-1"), "Azure", new UniqueId("partner-id"), true);
-        const brand2 = new Brand(new UniqueId("brand-id-2"), "Office", new UniqueId("partner-id"), true);
+        const partner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Microsoft", true);
+        const brand1 = new Brand(new UniqueId("550e8400-e29b-41d4-a716-446655440002"), "Azure", new UniqueId("550e8400-e29b-41d4-a716-446655440001"), true);
+        const brand2 = new Brand(new UniqueId("550e8400-e29b-41d4-a716-446655440003"), "Office", new UniqueId("550e8400-e29b-41d4-a716-446655440001"), true);
 
         partnerRepository.findById = vi.fn().mockResolvedValue(partner);
         brandRepository.findByPartnerId = vi.fn().mockResolvedValue([brand1, brand2]);
 
-        const request: GetBrandsByPartnerRequestDTO = { partnerId: "partner-id" };
+        const request: GetBrandsByPartnerRequestDTO = { partnerId: "550e8400-e29b-41d4-a716-446655440001" };
         const result: GetBrandsByPartnerResponseDTO[] = await useCase.execute(request);
 
         expect(result).toBeDefined();
         expect(result).toEqual([
             {
-                id: "brand-id-1",
+                id: "550e8400-e29b-41d4-a716-446655440002",
                 name: "Azure",
-                partnerId: "partner-id",
+                partnerId: "550e8400-e29b-41d4-a716-446655440001",
                 active: true
             },
             {
-                id: "brand-id-2",
+                id: "550e8400-e29b-41d4-a716-446655440003",
                 name: "Office",
-                partnerId: "partner-id",
+                partnerId: "550e8400-e29b-41d4-a716-446655440001",
                 active: true
             }
         ]);
         expect(partnerRepository.findById).toHaveBeenCalledTimes(1);
-        expect(partnerRepository.findById).toHaveBeenCalledWith("partner-id");
+        expect(partnerRepository.findById).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
         expect(brandRepository.findByPartnerId).toHaveBeenCalledTimes(1);
-        expect(brandRepository.findByPartnerId).toHaveBeenCalledWith("partner-id");
+        expect(brandRepository.findByPartnerId).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
     });
 
     //Error case of getting brands by partner id that does not exist
@@ -79,30 +79,30 @@ describe('GetBrandsByPartner Use Case', () => {
 
     //Error case of getting brands by partner id that has no brands
     it('should return an empty array if partner has no brands', async () => {
-        const partner = new Partner(new UniqueId("partner-id"), "Microsoft", true);
+        const partner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Microsoft", true);
         brandRepository.findByPartnerId = vi.fn().mockResolvedValue([]);
 
         partnerRepository.findById = vi.fn().mockResolvedValue(partner);
 
-        const request: GetBrandsByPartnerRequestDTO = { partnerId: "partner-id" };
+        const request: GetBrandsByPartnerRequestDTO = { partnerId: "550e8400-e29b-41d4-a716-446655440001" };
         const result: GetBrandsByPartnerResponseDTO[] = await useCase.execute(request);
 
         expect(result).toBeDefined();
         expect(result).toEqual([]);
         expect(partnerRepository.findById).toHaveBeenCalledTimes(1);
-        expect(partnerRepository.findById).toHaveBeenCalledWith("partner-id");
+        expect(partnerRepository.findById).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
         expect(brandRepository.findByPartnerId).toHaveBeenCalledTimes(1);
-        expect(brandRepository.findByPartnerId).toHaveBeenCalledWith("partner-id");
+        expect(brandRepository.findByPartnerId).toHaveBeenCalledWith("550e8400-e29b-41d4-a716-446655440001");
     });
 
     //Error case creating a brand when getting brand fails due to an unexpected error
     it("should throw an error when getting brands fails", async () => {
-        const partner = new Partner(new UniqueId("partner-id"), "Ubuntu", true);
+        const partner = new Partner(new UniqueId("550e8400-e29b-41d4-a716-446655440001"), "Ubuntu", true);
         partnerRepository.findById = vi.fn().mockResolvedValue(partner);
         brandRepository.findByPartnerId = vi.fn().mockResolvedValue(null);
 
         const request: GetBrandsByPartnerRequestDTO = {
-            partnerId: "partner-id",
+            partnerId: "550e8400-e29b-41d4-a716-446655440001",
         };
 
         const act = () => useCase.execute(request);

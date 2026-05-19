@@ -44,9 +44,6 @@ export const up = (pgm: MigrationBuilder): void => {
   });
 
   pgm.createIndex("products", "brandId");
-  pgm.addConstraint("products", "products_name_unique", {
-    unique: ["name"],
-  });
 };
 
 export const down = (pgm: MigrationBuilder): void => {

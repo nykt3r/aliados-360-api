@@ -2,7 +2,7 @@ import { pool } from "../postgres";
 
 export async function brandsSeed(): Promise<void> {
   await pool.query(`
-    INSERT INTO brands (id, name, partner_id, active)
+    INSERT INTO brands (id, name, "partnerId", active)
     VALUES
       ('11111111-1111-1111-1111-111111111119', 'Windows', '11111111-1111-1111-1111-111111111111', true),
       ('11111111-1111-1111-1111-111111111118', 'Azure', '11111111-1111-1111-1111-111111111111', true),

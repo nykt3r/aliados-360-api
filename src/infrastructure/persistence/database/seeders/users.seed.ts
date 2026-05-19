@@ -11,7 +11,7 @@ export async function usersSeed(): Promise<void> {
         id,
         name,
         email,
-        password_hash,
+        "passwordHash",
         role,
         active
       )

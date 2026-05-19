@@ -13,7 +13,7 @@ describe("UniqueId Value Object", () => {
   });
 
   it("should keep the provided id value", () => {
-    const idValue = "my-custom-id";
+    const idValue = "550e8400-e29b-41d4-a716-446655440001";
 
     const uniqueId = new UniqueId(idValue);
 
@@ -31,10 +31,17 @@ describe("UniqueId Value Object", () => {
   });
 
   it("should return the stored value", () => {
-    const idValue = "12345";
+    const idValue = "550e8400-e29b-41d4-a716-446655440001";
 
     const uniqueId = new UniqueId(idValue);
 
     expect(uniqueId.getValue()).toBe(idValue);
   });
+
+  it("should throw an error if provided value is not a valid UUID", () => {
+    const invalidIdValue = "invalid-id-format";
+
+    expect(() => new UniqueId(invalidIdValue)).toThrow("Invalid UUID format");
+  });
+
 });

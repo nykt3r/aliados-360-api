@@ -9,7 +9,7 @@ export class PostgreUserRepository implements IUserRepository {
 
     const result = await pool.query<UserPrimitives>(
       `INSERT INTO users 
-            (id, name, email, passwordHash, role, active)
+            (id, name, email, "passwordHash", role, active)
             VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *`,
       [
@@ -32,7 +32,7 @@ export class PostgreUserRepository implements IUserRepository {
         id, 
         name, 
         email, 
-        passwordHash, 
+        "passwordHash", 
         role, 
         active 
         FROM users
@@ -51,7 +51,7 @@ export class PostgreUserRepository implements IUserRepository {
       `SELECT id, 
         name, 
         email, 
-        passwordHash, 
+        "passwordHash", 
         role, 
         active 
         FROM users
@@ -71,7 +71,7 @@ export class PostgreUserRepository implements IUserRepository {
         id,
         name,
         email,
-        passwordHash,
+        "passwordHash",
         role,
         active
         FROM users`,

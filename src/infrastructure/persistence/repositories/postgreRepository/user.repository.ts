@@ -4,15 +4,22 @@ import { UserMapper, UserPrimitives } from "../../mappers/user.mapper";
 import { IUserRepository } from "../../../../domain/interfaces/repositories/user.repository.interface";
 
 export class PostgreUserRepository implements IUserRepository {
-  async save(partner: User): Promise<User | void> {
-    const data = UserMapper.toPersistence(partner);
+  async save(user: User): Promise<User | void> {
+    const data = UserMapper.toPersistence(user);
 
     const result = await pool.query<UserPrimitives>(
       `INSERT INTO users 
-            (id, name, email, password, role, active)
+            (id, name, email, "passwordHash", role, active)
             VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *`,
-      [data.id, data.name, data.email, data.password, data.role, data.active],
+      [
+        data.id,
+        data.name,
+        data.email,
+        data.passwordHash,
+        data.role,
+        data.active,
+      ],
     );
 
     const row = result.rows[0];
@@ -21,7 +28,14 @@ export class PostgreUserRepository implements IUserRepository {
 
   async findByEmail(email: string): Promise<User | null> {
     const result = await pool.query<UserPrimitives>(
-      `SELECT * FROM users
+      `SELECT 
+        id, 
+        name, 
+        email, 
+        "passwordHash", 
+        role, 
+        active 
+        FROM users
         WHERE email = $1`,
       [email],
     );
@@ -34,7 +48,13 @@ export class PostgreUserRepository implements IUserRepository {
 
   async findById(id: string): Promise<User | null> {
     const result = await pool.query<UserPrimitives>(
-      `SELECT * FROM users
+      `SELECT id, 
+        name, 
+        email, 
+        "passwordHash", 
+        role, 
+        active 
+        FROM users
         WHERE id = $1`,
       [id],
     );
@@ -51,7 +71,7 @@ export class PostgreUserRepository implements IUserRepository {
         id,
         name,
         email,
-        password,
+        "passwordHash",
         role,
         active
         FROM users`,

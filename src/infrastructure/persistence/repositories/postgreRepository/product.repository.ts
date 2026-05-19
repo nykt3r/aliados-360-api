@@ -9,7 +9,7 @@ export class PostgreProductRepository implements IProductRepository {
 
     const result = await pool.query<ProductPrimitives>(
       `INSERT INTO products 
-        (id, name, brand_id, active)
+        (id, name, "brandId", active)
         VALUES ($1, $2, $3, $4)
         RETURNING *`,
       [data.id, data.name, data.brandId, data.active],
@@ -24,10 +24,10 @@ export class PostgreProductRepository implements IProductRepository {
       `SELECT
         id,
         name,
-        brand_id AS "brandId",
+        "brandId",
         active
         FROM products
-        WHERE brand_id = $1`,
+        WHERE brandId = $1`,
       [brandId],
     );
 

@@ -1,12 +1,13 @@
 import { User } from "../../../domain/entities/user.entity";
 import { UniqueId } from "../../../domain/valueObjects/uniqueId.vo";
 import { Email } from "../../../domain/valueObjects/email.vo";
+import { UserRole } from "../../../domain/enums/userRole.enum";
 
 export interface UserPrimitives {
   id: string;
   name: string;
   email: string;
-  password: string;
+  passwordHash: string;
   role: string;
   active: boolean;
 }
@@ -17,8 +18,8 @@ export class UserMapper {
       new UniqueId(data.id),
       data.name,
       new Email(data.email),
-      data.password,
-      data.role,
+      data.passwordHash,
+      this.mapRole(data.role),
       data.active,
     );
   }
@@ -28,9 +29,17 @@ export class UserMapper {
       id: user.getId(),
       name: user.getName(),
       email: user.getEmail(),
-      password: user.getPassword(),
+      passwordHash: user.getPasswordHash(),
       role: user.getRole(),
       active: user.isActive(),
     };
+  }
+
+  private static mapRole(role: string): UserRole {
+    if (!Object.values(UserRole).includes(role as UserRole)) {
+      throw new Error(`Invalid user role: ${role}`);
+    }
+
+    return role as UserRole;
   }
 }

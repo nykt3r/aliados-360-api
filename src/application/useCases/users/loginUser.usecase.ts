@@ -20,7 +20,7 @@ export class LoginUserUseCase implements ILoginUserUseCase {
 
     const validPassword = await comparePassword(
       req.password,
-      user.getPassword(),
+      user.getPasswordHash(),
     );
     if (!validPassword) throw new BadRequestError("User invalid credentials");
 

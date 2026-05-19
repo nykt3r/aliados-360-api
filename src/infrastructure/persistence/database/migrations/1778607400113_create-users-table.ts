@@ -4,6 +4,7 @@ export const up = (pgm: MigrationBuilder): void => {
   pgm.createExtension("pgcrypto", {
     ifNotExists: true,
   });
+  pgm.createType("user_role", ["ADMIN", "MANAGER", "VIEWER"]);
 
   pgm.createTable("users", {
     id: {
@@ -23,14 +24,15 @@ export const up = (pgm: MigrationBuilder): void => {
       unique: true,
     },
 
-    password: {
+    passwordHash: {
       type: "text",
       notNull: true,
     },
 
     role: {
-      type: "varchar(20)",
+      type: "user_role",
       notNull: true,
+      default: "VIEWER",
     },
 
     active: {

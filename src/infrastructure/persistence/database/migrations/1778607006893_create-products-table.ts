@@ -17,7 +17,7 @@ export const up = (pgm: MigrationBuilder): void => {
       notNull: true,
     },
 
-    brand_id: {
+    brandId: {
       type: "uuid",
       notNull: true,
       references: "brands(id)",
@@ -43,10 +43,7 @@ export const up = (pgm: MigrationBuilder): void => {
     },
   });
 
-  pgm.createIndex("products", "brand_id");
-  pgm.addConstraint("products", "products_name_unique", {
-    unique: ["name"],
-  });
+  pgm.createIndex("products", "brandId");
 };
 
 export const down = (pgm: MigrationBuilder): void => {

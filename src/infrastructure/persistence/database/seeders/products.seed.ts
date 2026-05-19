@@ -2,7 +2,7 @@ import { pool } from "../postgres";
 
 export async function productsSeed(): Promise<void> {
   await pool.query(`
-    INSERT INTO products (name, brand_id, active)
+    INSERT INTO products (name, "brandId", active)
     VALUES
       ('Windows 11', '11111111-1111-1111-1111-111111111119', true),
       ('Windows 10', '11111111-1111-1111-1111-111111111119', true),
@@ -27,7 +27,6 @@ export async function productsSeed(): Promise<void> {
       ('MacBook Air M3', '44444444-4444-4444-4444-444444444448', true),
       ('MacBook Pro M5 Max', '44444444-4444-4444-4444-444444444448', true),
       ('MacBook Pro M4', '44444444-4444-4444-4444-444444444448', true)
-      ON CONFLICT (name) DO NOTHING;
   `);
 
   console.log("Products seed executed");

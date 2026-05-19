@@ -14,7 +14,7 @@ export class GetAllUsersUseCase implements IGetAllUsersUseCase {
       id: user.getId(),
       name: user.getName(),
       email: user.getEmail(),
-      password: user.getPassword(),
+      passwordHash: user.getPasswordHash(),
       role: user.getRole(),
       active: user.isActive(),
     }));

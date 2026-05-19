@@ -9,7 +9,7 @@ export class PostgreContactRepository implements IContactRepository {
 
     const result = await pool.query<ContactPrimitives>(
       `INSERT INTO contacts 
-        (id, name, email, role, partner_id)
+        (id, name, email, role, "partnerId")
         VALUES ($1, $2, $3, $4, $5)
         RETURNING *`,
       [data.id, data.name, data.email, data.role, data.partnerId],
@@ -26,9 +26,9 @@ export class PostgreContactRepository implements IContactRepository {
         name, 
         email, 
         role,
-        partner_id AS "partnerId"
+        "partnerId"
         FROM contacts
-        WHERE partner_id = $1`,
+        WHERE partnerId = $1`,
       [partnerId],
     );
 

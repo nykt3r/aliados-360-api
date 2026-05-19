@@ -10,16 +10,18 @@ export const env = {
   port: process.env.PORT ? Number(process.env.PORT) : 3000,
   showEnv: process.env.SHOW_ENV === "true",
   logLevel: process.env.LOG_LEVEL || "info",
-  jwtSecret: process.env.JWT_SECRET || "secret",
+  jwtSecret: process.env.JWT_SECRET || "secretTKN",
   dataBase: {
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-    url: process.env.DATABASE_URL
+    url: process.env.DATABASE_URL,
   },
   httpConfig: {
-    timeOut: process.env.HTTP_TIME_OUT ? Number(process.env.HTTP_TIME_OUT) : 20000,
-  }
+    timeOut: process.env.HTTP_TIME_OUT
+      ? Number(process.env.HTTP_TIME_OUT)
+      : 20000,
+  },
 };

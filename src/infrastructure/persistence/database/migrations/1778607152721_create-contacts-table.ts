@@ -28,7 +28,7 @@ export const up = (pgm: MigrationBuilder): void => {
       notNull: true,
     },
 
-    partner_id: {
+    partnerId: {
       type: "uuid",
       notNull: true,
       references: "partners(id)",
@@ -48,7 +48,7 @@ export const up = (pgm: MigrationBuilder): void => {
     },
   });
 
-  pgm.createIndex("contacts", "partner_id");
+  pgm.createIndex("contacts", "partnerId");
   pgm.createIndex("contacts", "email");
   pgm.addConstraint("contacts", "contacts_email_unique", {
     unique: ["email"],

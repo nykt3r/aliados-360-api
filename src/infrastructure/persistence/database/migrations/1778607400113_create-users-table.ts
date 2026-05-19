@@ -24,7 +24,7 @@ export const up = (pgm: MigrationBuilder): void => {
       unique: true,
     },
 
-    password_hash: {
+    passwordHash: {
       type: "text",
       notNull: true,
     },

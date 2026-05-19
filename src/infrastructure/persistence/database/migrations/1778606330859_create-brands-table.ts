@@ -17,7 +17,7 @@ export const up = (pgm: MigrationBuilder): void => {
       notNull: true,
     },
 
-    partner_id: {
+    partnerId: {
       type: "uuid",
       notNull: true,
       references: "partners(id)",
@@ -43,7 +43,7 @@ export const up = (pgm: MigrationBuilder): void => {
     },
   });
 
-  pgm.createIndex("brands", "partner_id");
+  pgm.createIndex("brands", "partnerId");
 };
 
 export const down = (pgm: MigrationBuilder): void => {

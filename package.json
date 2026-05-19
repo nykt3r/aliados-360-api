@@ -11,7 +11,7 @@
     "migrate:up": "tsx ./node_modules/node-pg-migrate/bin/node-pg-migrate up --migrations-dir src/infrastructure/persistence/database/migrations",
     "migrate:down": "tsx ./node_modules/node-pg-migrate/bin/node-pg-migrate down --migrations-dir src/infrastructure/persistence/database/migrations",
     "seed": "tsx src/infrastructure/persistence/database/seeders/index.seed.ts",
-    "db:setup": "npm run migrate:up && npm run seed:all",
+    "db:setup": "npm run migrate:up && npm run seed",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"

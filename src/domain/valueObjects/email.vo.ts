@@ -1,10 +1,10 @@
-import { BadRequestError } from "../../shared/errors/app.error"; // Review and refactor errors by layer
+import { BadRequestError } from "../../shared/errors/app.error";
 
 export class Email {
   private readonly value: string;
 
   constructor(value: string) {
-    if (!this.validate(value)) { // Encapsulate 
+    if (!this.validate(value)) {
       throw new BadRequestError("Invalid email format");
     }
 

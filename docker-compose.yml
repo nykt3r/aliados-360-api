@@ -33,6 +33,7 @@ services:
         condition: service_healthy
 
     environment:
+      JWT_SECRET: secretTKN
       DATABASE_URL: postgresql://postgres:passw0rd0@postgres:5432/aliados360
 
     ports:

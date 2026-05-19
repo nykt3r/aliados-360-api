@@ -2,7 +2,7 @@ import { pool } from "../postgres";
 
 export async function contactsSeed(): Promise<void> {
   await pool.query(`
-    INSERT INTO contacts (name, email, role, partner_id)
+    INSERT INTO contacts (name, email, role, "partnerId")
     VALUES
       ('Osama Lin Baden', 'allahu@akbar.com', 'PM', '11111111-1111-1111-1111-111111111111'),
       ('Eric Cartman', 'mama@beach.com', 'CEO', '11111111-1111-1111-1111-111111111111'),

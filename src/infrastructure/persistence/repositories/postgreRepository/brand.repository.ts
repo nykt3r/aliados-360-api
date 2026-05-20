@@ -27,7 +27,7 @@ export class PostgreBrandRepository implements IBrandRepository {
         "partnerId",
         active
         FROM brands
-        WHERE partnerId = $1`,
+        WHERE "partnerId" = $1`,
       [partnerId],
     );
 

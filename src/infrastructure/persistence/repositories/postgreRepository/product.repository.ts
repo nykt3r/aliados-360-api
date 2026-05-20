@@ -27,7 +27,7 @@ export class PostgreProductRepository implements IProductRepository {
         "brandId",
         active
         FROM products
-        WHERE brandId = $1`,
+        WHERE "brandId" = $1`,
       [brandId],
     );
 

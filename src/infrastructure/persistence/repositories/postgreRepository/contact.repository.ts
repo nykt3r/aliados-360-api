@@ -28,7 +28,7 @@ export class PostgreContactRepository implements IContactRepository {
         role,
         "partnerId"
         FROM contacts
-        WHERE partnerId = $1`,
+        WHERE "partnerId" = $1`,
       [partnerId],
     );
 

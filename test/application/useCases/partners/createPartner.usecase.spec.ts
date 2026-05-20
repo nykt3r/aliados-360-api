@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { CreatePartnerUseCase } from "../../../src/application/useCases/partners/createPartner.usecase";
-import { IPartnerRepository } from "../../../src/domain/interfaces/repositories/partner.repository.interface";
-import { CreatePartnerRequestDTO, CreatePartnerResponseDTO } from "../../../src/application/dto/partners/createPartner.dto";
+import { CreatePartnerUseCase } from "../../../../src/application/useCases/partners/createPartner.usecase";
+import { IPartnerRepository } from "../../../../src/domain/interfaces/repositories/partner.repository.interface";
+import { CreatePartnerRequestDTO, CreatePartnerResponseDTO } from "../../../../src/application/dto/partners/createPartner.dto";
 
 describe("CreatePartner Use Case", () => {
 
@@ -23,7 +23,7 @@ describe("CreatePartner Use Case", () => {
         partnerRepository.save = vi.fn().mockImplementation(async (partner) => partner);
 
         const request: CreatePartnerRequestDTO = { 
-            id: "partner-id",
+            id: "550e8400-e29b-41d4-a716-446655440001",
             name: "Ubuntu",
             active: true
         };
@@ -32,7 +32,7 @@ describe("CreatePartner Use Case", () => {
 
         expect(result).toBeDefined();
         expect(result).toEqual({
-            id: "partner-id",
+            id: "550e8400-e29b-41d4-a716-446655440001",
             name: "Ubuntu",
             active: true
         });
@@ -49,12 +49,12 @@ describe("CreatePartner Use Case", () => {
     });
 
     it("should throw an error if partner already exists", async () => {
-        const existingPartner = { getId: () => "partner-id" };
+        const existingPartner = { getId: () => "550e8400-e29b-41d4-a716-446655440001" };
 
         partnerRepository.findById = vi.fn().mockResolvedValue(existingPartner);
 
         const request: CreatePartnerRequestDTO = { 
-            id: "partner-id",
+            id: "550e8400-e29b-41d4-a716-446655440001",
             name: "Ubuntu",
             active: true
         };
@@ -70,7 +70,7 @@ describe("CreatePartner Use Case", () => {
         partnerRepository.save = vi.fn().mockResolvedValue(null);
 
         const request: CreatePartnerRequestDTO = { 
-            id: "partner-id",
+            id: "550e8400-e29b-41d4-a716-446655440001",
             name: "Ubuntu",
             active: true
         };

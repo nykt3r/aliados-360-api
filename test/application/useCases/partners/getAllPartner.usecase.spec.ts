@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { IPartnerRepository } from "../../../src/domain/interfaces/repositories/partner.repository.interface";
-import { GetAllPartnersUseCase } from "../../../src/application/useCases/partners/getAllPartners.usecase";
-import { Partner } from "../../../src/domain/entities/partner.entity";
-import { UniqueId } from "../../../src/domain/valueObjects/uniqueId.vo";
-import { GetAllPartnersResponseDTO } from "../../../src/application/dto/partners/getAllPartners.dto";
+import { IPartnerRepository } from "../../../../src/domain/interfaces/repositories/partner.repository.interface";
+import { GetAllPartnersUseCase } from "../../../../src/application/useCases/partners/getAllPartners.usecase";
+import { Partner } from "../../../../src/domain/entities/partner.entity";
+import { UniqueId } from "../../../../src/domain/valueObjects/uniqueId.vo";
+import { GetAllPartnersResponseDTO } from "../../../../src/application/dto/partners/getAllPartners.dto";
 
 describe("GetAllPartners Use Case", () => {
 

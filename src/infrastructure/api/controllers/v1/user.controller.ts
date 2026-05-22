@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import { IGetAllUsersUseCase } from "../../../../domain/interfaces/useCases/users/getAllUsers.usecase.interface";
 import { IGetUserByIdUseCase } from "../../../../domain/interfaces/useCases/users/getUserById.usecase.interface";
 import { IGetUserByEmailUseCase } from "../../../../domain/interfaces/useCases/users/getUserByEmail.usecase.interface";
@@ -31,42 +31,44 @@ export class UserController {
     private readonly loginUserUseCase: ILoginUserUseCase,
   ) {}
 
-  getAllUsers = async (
-    _req: Request,
-    res: Response<GetAllUsersResponseDTO[]>,
-  ): Promise<void> => {
+  getAllUsers: RequestHandler<
+    {}, 
+    GetAllUsersResponseDTO[]
+  > = async (_req, res) => {
     const result = await this.getAllUsersUseCase.execute();
     res.status(200).json(result);
   };
 
-  getUserById = async (
-    req: Request<GetUserByIdRequestDTO>,
-    res: Response<GetUserByIdResponseDTO>,
-  ): Promise<void> => {
+  getUserById: RequestHandler<
+    GetUserByIdRequestDTO, 
+    GetUserByIdResponseDTO
+  > = async (req, res) => {
     const result = await this.getUserByIdUseCase.execute(req.params);
     res.status(200).json(result);
   };
 
-  getUserByEmail = async (
-    req: Request<GetUserByEmailRequestDTO>,
-    res: Response<GetUserByEmailResponseDTO>,
-  ): Promise<void> => {
+  getUserByEmail: RequestHandler<
+    GetUserByEmailRequestDTO,
+    GetUserByEmailResponseDTO
+  > = async (req, res) => {
     const result = await this.getUserByEmailUseCase.execute(req.params);
     res.status(200).json(result);
   };
 
-  registerUser = async (
-    req: Request<{}, RegisterUserResponseDTO, RegisterUserRequestDTO>,
-    res: Response<RegisterUserResponseDTO>,
-  ): Promise<void> => {
+  registerUser: RequestHandler<
+    {}, 
+    RegisterUserResponseDTO, 
+    RegisterUserRequestDTO
+  > = async (req, res) => {
     const result = await this.registerUserUseCase.execute(req.body);
     res.status(201).json(result);
   };
 
-  loginUser = async (
-    req: Request<{}, LoginUserResponseDTO, LoginUserRequestDTO>,
-    res: Response<LoginUserResponseDTO>,
-  ): Promise<void> => {
+  loginUser: RequestHandler<
+    {}, 
+    LoginUserResponseDTO, 
+    LoginUserRequestDTO
+  > = async (req, res) => {
     const result = await this.loginUserUseCase.execute(req.body);
     res.status(200).json(result);
   };

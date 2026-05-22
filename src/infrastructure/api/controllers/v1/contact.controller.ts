@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import { IGetContactsByPartnerUseCase } from "../../../../domain/interfaces/useCases/contacts/getContactsByPartner.usecase.interface";
 import { ICreateContactUseCase } from "../../../../domain/interfaces/useCases/contacts/createContact.usecase.interface";
 import {
@@ -16,22 +16,19 @@ export class ContactController {
     private readonly createContactUseCase: ICreateContactUseCase,
   ) {}
 
-  getContactsByPartner = async (
-    req: Request<GetContactsByPartnerRequestDTO>,
-    res: Response<GetContactsByPartnerResponseDTO[]>,
-  ): Promise<void> => {
+  getContactsByPartner: RequestHandler<
+    GetContactsByPartnerRequestDTO,
+    GetContactsByPartnerResponseDTO[]
+  > = async (req, res) => {
     const result = await this.getContactsByPartnerUseCase.execute(req.params);
     res.status(200).json(result);
   };
 
-  createContact = async (
-    req: Request<
-      { partnerId: string },
-      CreateContactResponseDTO,
-      CreateContactRequestDTO
-    >,
-    res: Response<CreateContactResponseDTO>,
-  ): Promise<void> => {
+  createContact: RequestHandler<
+    { partnerId: string },
+    CreateContactResponseDTO,
+    CreateContactRequestDTO
+  > = async (req, res) => {
     const request: CreateContactRequestDTO = {
       id: req.body.id,
       name: req.body.name,

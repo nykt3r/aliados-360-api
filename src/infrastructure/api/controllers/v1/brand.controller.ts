@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import { IGetBrandByIdUseCase } from "../../../../domain/interfaces/useCases/brands/getBrandById.usecase.interface";
 import { IGetBrandsByPartnerUseCase } from "../../../../domain/interfaces/useCases/brands/getBrandsByPartner.usecase.interface";
 import { ICreateBrandUseCase } from "../../../../domain/interfaces/useCases/brands/createBrand.usecase.interface";
@@ -22,30 +22,27 @@ export class BrandController {
     private readonly createBrandUseCase: ICreateBrandUseCase,
   ) {}
 
-  getBrandById = async (
-    req: Request<GetBrandByIdRequestDTO>,
-    res: Response<GetBrandByIdResponseDTO>,
-  ): Promise<void> => {
+  getBrandById: RequestHandler<
+    GetBrandByIdRequestDTO,
+    GetBrandByIdResponseDTO
+  > = async (req, res) => {
     const result = await this.getBrandByIdUseCase.execute(req.params);
     res.status(200).json(result);
   };
 
-  getBrandsByPartner = async (
-    req: Request<GetBrandsByPartnerRequestDTO>,
-    res: Response<GetBrandsByPartnerResponseDTO[]>,
-  ): Promise<void> => {
+  getBrandsByPartner: RequestHandler<
+    GetBrandsByPartnerRequestDTO,
+    GetBrandsByPartnerResponseDTO[]
+  > = async (req, res) => {
     const result = await this.getBrandsByPartnerUseCase.execute(req.params);
     res.status(200).json(result);
   };
 
-  createBrand = async (
-    req: Request<
-      { partnerId: string },
-      CreateBrandResponseDTO,
-      CreateBrandRequestDTO
-    >,
-    res: Response<CreateBrandResponseDTO>,
-  ): Promise<void> => {
+  createBrand: RequestHandler<
+    { partnerId: string },
+    CreateBrandResponseDTO,
+    CreateBrandRequestDTO
+  > = async (req, res) => {
     const request: CreateBrandRequestDTO = {
       id: req.body.id,
       name: req.body.name,

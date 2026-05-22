@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import { IGetProductByIdUseCase } from "../../../../domain/interfaces/useCases/products/getProductById.usecase.interface";
 import { IGetProductsByBrandUseCase } from "../../../../domain/interfaces/useCases/products/getProductsByBrand.usecase.interface";
 import { ICreateProductUseCase } from "../../../../domain/interfaces/useCases/products/createProduct.usecase.interface";
@@ -22,30 +22,27 @@ export class ProductController {
     private readonly createProductUseCase: ICreateProductUseCase,
   ) {}
 
-  getProductById = async (
-    req: Request<GetProductByIdRequestDTO>,
-    res: Response<GetProductByIdResponseDTO>,
-  ): Promise<void> => {
+  getProductById: RequestHandler<
+    GetProductByIdRequestDTO,
+    GetProductByIdResponseDTO
+  > = async (req, res) => {
     const result = await this.getProductByIdUseCase.execute(req.params);
     res.status(200).json(result);
   };
 
-  getProductsByBrand = async (
-    req: Request<GetProductsByBrandRequestDTO>,
-    res: Response<GetProductsByBrandResponseDTO[]>,
-  ): Promise<void> => {
+  getProductsByBrand: RequestHandler<
+    GetProductsByBrandRequestDTO,
+    GetProductsByBrandResponseDTO[]
+  > = async (req, res) => {
     const result = await this.getProductsByBrandUseCase.execute(req.params);
     res.status(200).json(result);
   };
 
-  createProduct = async (
-    req: Request<
-      { brandId: string },
-      CreateProductResponseDTO,
-      CreateProductRequestDTO
-    >,
-    res: Response<CreateProductResponseDTO>,
-  ): Promise<void> => {
+  createProduct: RequestHandler<
+    { brandId: string },
+    CreateProductResponseDTO,
+    CreateProductRequestDTO
+  > = async (req, res) => {
     const request: CreateProductRequestDTO = {
       id: req.body.id,
       name: req.body.name,

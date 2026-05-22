@@ -1,0 +1,2 @@
+### Obtener una PRODUCTO por id
+GET http://localhost:3000/api/v1/products/f2adb421-aa46-43cc-b91b-ce50db133d87 HTTP/1.1
